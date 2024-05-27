@@ -75,11 +75,11 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
     dsID = x
     # Current PDP List
     curPolicy <- pdp_get_all(client_id = client_id, secret = secret, dataset_id = dsID)
-    curPolicyLong <- extractPdp(curPolicy) %>% dplyr::filter(`Policy Name` %!like% ignore_policy & `Policy Name` != 'All Rows') %>% dplyr::mutate(cur = 1)
-    curPolicyWide <- curPolicyLong %>% dplyr::arrange(`Policy Name`, `User ID`, `Policy Value`) %>% dplyr::group_by(`Policy ID`, `Policy Name`, `Policy Column`) %>% dplyr::summarise(`User ID` = paste(unique(`User ID`), collapse = '|'), `Policy Value` = paste(unique(`Policy Value`), collapse = '|'), .groups = 'drop')
+    curPolicyLong <- extractPdp(curPolicy) %>% dplyr::mutate(across(everything(), as.character)) %>% dplyr::filter(`Policy Name` %!like% ignore_policy & `Policy Name` != 'All Rows') %>% dplyr::mutate(cur = 1)
+    curPolicyWide <- curPolicyLong %>% dplyr::arrange(`Policy Name`, `User ID`, `Policy Value`) %>% dplyr::group_by(`Policy Name`, `Policy Column`) %>% dplyr::summarise(`User ID` = paste(unique(`User ID`), collapse = '|'), `Policy Value` = paste(unique(`Policy Value`), collapse = '|'), .groups = 'drop')
 
     # Correct PDP List
-    corPolicyLong <- pdpData %>% dplyr::filter(`Dataset ID` == dsID) %>% select(-`Dataset ID`) %>% dplyr::left_join(curPolicyWide %>% dplyr::select(c('Policy ID', 'Policy Name', 'Policy Column')), by = join_by(`Policy Name`, `Policy Column`)) %>% dplyr::mutate(`User ID` = as.character(`User ID`), `Policy Value` = as.character(`Policy Value`)) %>% dplyr::mutate(cor = 1)
+    corPolicyLong <- pdpData %>% dplyr::filter(`Dataset ID` == dsID) %>% select(-`Dataset ID`) %>% dplyr::mutate(cor = 1)
     corPolicyWide <- corPolicyLong %>% dplyr::arrange(`Policy Name`, `User ID`, `Policy Value`) %>% dplyr::group_by(`Policy Name`, `Policy Column`) %>% dplyr::summarise(`User ID` = paste(unique(`User ID`), collapse = '|'), `Policy Value` = paste(unique(`Policy Value`), collapse = '|'), .groups = 'drop')
 
     # IF NO current policies can be found on the dataset
@@ -89,23 +89,23 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
     else{
       # Add policies
       addList <- dplyr::anti_join(corPolicyWide, curPolicyWide, by = c('Policy Name'='Policy Name', 'Policy Column' = 'Policy Column'))
-      if(nrow(addList) > 0) {for (i in 1:nrow(addList)) {pdp_create(client_id, secret = secret, dataset_id = dsID, body = createPdpList(corPolicyWide[i,]))} }
+      if(nrow(addList) > 0) {for (i in 1:nrow(addList)) {pdp_create(client_id, secret = secret, dataset_id = dsID, body = createPdpList(addList[i,]))} }
 
       # Delete Policies
-      dupList <- curPolicyWide %>% dplyr::group_by(`Policy Name`, `Policy Column`) %>% dplyr::mutate(rowN = dplyr::row_number()) %>% dplyr::filter(rowN > 1) %>% dplyr::ungroup() %>% dplyr::select(`Policy ID`)
-      delList <- dplyr::anti_join(curPolicyWide, corPolicyWide, by = c('Policy Name'='Policy Name', 'Policy Column' = 'Policy Column')) %>% dplyr::select(`Policy ID`)
+      dupList <- curPolicyLong %>% dplyr::group_by(`Policy Name`, `Policy Column`) %>% dplyr::mutate(rowN = dplyr::row_number()) %>% dplyr::filter(rowN > 1) %>% dplyr::ungroup() %>% dplyr::select(`Policy ID`)
+      delList <- dplyr::anti_join(curPolicyWide, corPolicyWide, by = c('Policy Name'='Policy Name', 'Policy Column' = 'Policy Column')) %>% dplyr::left_join(curPolicyLong, by = join_by(`Policy Name`, `Policy Column`, `User ID`, `Policy Value`)) %>% dplyr::select(`Policy ID`)
       delList1 <- dplyr::bind_rows(delList, dupList) %>% unique()
       if(nrow(delList1) > 0) {for (i in 1:nrow(delList1)) {pdp_delete(client_id, secret = secret, dataset_id = dsID, pdp_id = delList1$`Policy ID`[i])} }
 
       # Update Policies
       updList <- curPolicyLong %>%
-        dplyr::full_join(corPolicyLong, by = join_by(`Policy ID`, `Policy Name`, `User ID`, `Policy Column`, `Policy Value`)) %>%
-        dplyr::anti_join(delList1 %>% dplyr::select(`Policy ID`), by = join_by(`Policy ID`)) %>%
-        dplyr::filter(!is.na(`Policy ID`)) %>%
+        dplyr::anti_join(delList1, by = join_by(`Policy ID`)) %>% dplyr::select(-`Policy ID`) %>%
+        dplyr::full_join(corPolicyLong, by = join_by(`Policy Name`, `User ID`, `Policy Column`, `Policy Value`)) %>%
+        dplyr::anti_join(addList, by = join_by(`Policy Name`, `User ID`, `Policy Column`)) %>%
         dplyr::filter(is.na(cur) | is.na(cor)) %>%
-        dplyr::select(`Policy ID`, `Policy Name`, `Policy Column`) %>%
-        unique()
-      if(nrow(updList) > 0) {updList <- updList %>% dplyr::left_join(corPolicyWide, by = join_by(`Policy Name`, `Policy Column`))}
+        dplyr::select(`Policy Name`, `Policy Column`) %>% unique() %>%
+        dplyr::left_join(corPolicyWide, by = join_by(`Policy Name`, `Policy Column`)) %>%
+        dplyr::left_join(curPolicyLong %>% dplyr::select(`Policy ID`, `Policy Name`, `Policy Column`), by = join_by(`Policy Name`, `Policy Column`))
       if(nrow(updList) > 0) {for (i in 1:nrow(updList)) {pdp_update(client_id, secret = secret, dataset_id = dsID, pdp_id = updList$`Policy ID`[i], body = createPdpList(updList[i,]))} } }
   }
 
@@ -130,7 +130,3 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
     massUpdate(dsID)}}
 
 }
-
-
-
-
