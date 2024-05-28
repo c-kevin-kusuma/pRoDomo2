@@ -125,5 +125,86 @@ data <- pRoActivity(client_id = client_id,
   secret = secret,
   start = as.Date('2024-01-01'))
 ```
+<br />
 
+
+## Available Functions
+1. Activity Log
+   * `pRoActivity()`
+   * `activity_log()` To retrieve activity logs
+3. Dataset
+   * `pRoDsCreate()`
+   * `pRoDsGet()`
+   * `pRoDsUpdate()`
+   * `dataset_create()`
+   * `dataset_delete()`
+   * `dataset_export()`
+   * `dataset_get_info_all()`
+   * `dataset_get_info()`
+   * `dataset_import()`
+   * `dataset_query()`
+   * `dataset_update_info()`
+5. Group
+   * `group_create()`
+   * `group_delete()`
+   * `group_get_all()`
+   * `group_get()`
+   * `group_update()`
+   * `group_user_add()`
+   * `group_user_get()`
+   * `group_user_remove()`
+6. Page
+   * `page_collection_create()`
+   * `page_collection_delete()`
+   * `page_collection_get()`
+   * `page_collection_update()`
+   * `page_create()`
+   * `page_delete()`
+   * `page_update()`
+7. Personalized Data Permission (PDP)
+   * `pdp_create()`
+   * `pdp_delete()`
+   * `pdp_get_all()`
+   * `pdp_get()`
+   * `pdp_update()`
+8. Project, List, & Task
+   * `plt_attachment_add()`
+   * `plt_attachment_delete()`
+   * `lt_attachment_download()`
+   * `plt_attachment_get()`
+   * `plt_list_create()`
+   * `plt_list_delete()`
+   * `plt_list_get_all()`
+   * `plt_list_get()`
+   * `plt_list_update()`
+   * `plt_project_create()`
+   * `plt_project_delete()`
+   * `plt_project_get_all()`
+   * `plt_project_get()`
+   * `plt_project_member_get()`
+   * `plt_project_member_update()`
+   * `plt_project_update()`
+   * `plt_task_create()`
+   * `plt_task_get_all()`
+   * `plt_task_get()`
+   * `plt_task_update()`
+9. Stream
+   * `stream_create()`
+   * `stream_delete()`
+   * `stream_execution_abort()`
+   * `stream_execution_commit()`
+   * `stream_execution_create()`
+   * `stream_execution_get_all()`
+   * `stream_execution_get()`
+   * `stream_get_all()`
+   * `stream_get()`
+   * `stream_search()`
+   * `stream_update()`
+   * `strea_uploadPart()`
+10. User
+   * `user_create()`
+   * `user_delete()`
+   * `user_get_all()`
+   * `user_get()`
+   * `user_update()`
 
