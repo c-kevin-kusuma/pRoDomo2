@@ -1,4 +1,4 @@
-#' Query a DataSet Through Parallelism
+#' Query a DataSet
 #'
 #' Queries the data in an existing Domo DataSet.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
@@ -10,9 +10,7 @@
 #' @examples dataset_query(client_id = client_id,
 #'   secret = secret,
 #'   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
-#'   sql_query = 'select * from',
-#'   parallel = TRUE,
-#'   n_core = 7)
+#'   sql_query = 'select * from')
 #' @export
 
 

@@ -4,7 +4,7 @@
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
 #' @param secret A secret that can created on the \url{developer.domo.com} page.
 #' @param data_table A dataframe/tibble that contains two required fields:
-#' \enumerates{
+#' \enumerate{
 #' \item group_id
 #' \item user_id}
 #' @examples pRoGroup(client_id = client_id, secret = secret, data_table = data_table)
