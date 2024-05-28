@@ -1,14 +1,16 @@
-#' Create A New Dataset Via Stream API
+#' Update A Dataset
 #'
-#' It is best practice to use this function to create a new dataset as it leverages STREAM API that loads data parts at scale.
+#' It is best practice to use this function to update an existing API dataset as it leverages STREAM API that loads data parts at scale.
 #' @param client_id A client_id that can be created on the developer.domo.com page.
 #' @param secret A secret that can created on the developer.domo.com page.
-#' @param nameLike If included, will limit the list of DataSets to those with names that contain the string passed in. nameLike is case insensitive.
-#' @param sort The DataSet field to sort by. Fields prefixed with a negative sign reverses the sort (i.e. '-name' does a reverse sort by the name of the DataSets).
-#' @examples dataset_get_info_all(client_id = client_id,
+#' @param dataset_id The unique ID of the dataset.
+#' @param dataset The data frame that will be uploaded to DOMO.
+#' @param parallel (Optional) If TRUE, the function will use multiple cores to upload the data frame. `n_core` is required when `parallel` = TRUE.
+#' @param n_core (Optional) The number of cores to use from your device. It's recommended to leave one core free. If you have 8 cores, enter `n_core` = 7.
+#' @examples pRoDsUpdate(client_id = client_id,
 #'   secret = secret,
-#'   nameLike = 'first',
-#'   sort = 'name')
+#'   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
+#'   dataset = dataset)
 #' @export
 
 
