@@ -1,5 +1,5 @@
 # pRoDomo2
-This R package provides seamless integration between DOMO and R programming language. Advanced analytics and a wide range of process automation are possible and made simple by this package.  
+`pRoDomo2` R package provides seamless integration between DOMO and R programming language. Advanced analytics and a wide range of process automation are possible and made simple by this package.  
 
 While DOMO is a low-code data app platform that takes the power of BI to the next level, R programming language enables data scientists to develop advanced analysis with unlimited flexibility. Integrating both tools will open new doors to possibilities and opportunities. 
 
@@ -14,7 +14,8 @@ if(!require("devtools")) install.packages("devtools")
 
 # Installing "pRoDomo2" package from github
 devtools::install_github(repo='c-kevin-kusuma/pRoDomo2', ref='main')
-```
+
+<br />
 <br />
 
 ## Authentication
@@ -26,6 +27,7 @@ Please follow these steps to obtain them:
 4. Give your client a name and select its scope
 5. Click "Create", you'll then be provided with `client_id` and `secret`
 
+<br />
 <br />
 
 ## Create A Dataset
@@ -39,6 +41,8 @@ pRoDsCreate(client_id = client_id,
   dataset_description = 'This is the description',
   update_method = 'REPLACE')
 ```
+
+<br />
 <br />
 
 ## Update A Dataset
@@ -50,6 +54,8 @@ pRoDsUpdate(client_id = client_id,
   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
   dataset = dataset)
 ```
+
+<br />
 <br />
 
 ## Query A Dataset
@@ -60,6 +66,8 @@ data <- pRoDsGet(client_id = client_id,
   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
   sql_query = "select * from table")
 ```
+
+<br />
 <br />
 
 ## Manage Personalized Data Permission (PDP) at Scale
@@ -86,6 +94,8 @@ pRoPdp(client_id = client_id,
   secret = secret,
   data_table = data_table)
 ```
+
+<br />
 <br />
 
 ## Manage Group Memberships at Scale
@@ -106,6 +116,8 @@ pRoGroup(client_id = client_id,
   secret = secret,
   data_table = data_table)
 ```
+
+<br />
 <br />
 
 ## Retrieve Activity Log
@@ -125,86 +137,93 @@ data <- pRoActivity(client_id = client_id,
   secret = secret,
   start = as.Date('2024-01-01'))
 ```
-<br />
 
+<br />
+<br />
 
 ## Available Functions
 1. Activity Log
-   * `pRoActivity()`
-   * `activity_log()` To retrieve activity logs
+   * `pRoActivity()` Retrieve Activity Log Entries (Simplified)
+   * `activity_log()` Retrieve Activity Log Entries
 3. Dataset
-   * `pRoDsCreate()`
-   * `pRoDsGet()`
-   * `pRoDsUpdate()`
-   * `dataset_create()`
-   * `dataset_delete()`
-   * `dataset_export()`
-   * `dataset_get_info_all()`
-   * `dataset_get_info()`
-   * `dataset_import()`
-   * `dataset_query()`
-   * `dataset_update_info()`
+   * `pRoDsCreate()` Create A New Dataset Via Stream API
+   * `pRoDsGet()` Query a DataSet
+   * `pRoDsUpdate()` Update A Dataset Via Stream API
+   * `dataset_create()` Create An Empty DataSet
+   * `dataset_delete()` Delete a DataSet
+   * `dataset_export()` Export data from a DOMO DataSet
+   * `dataset_get_info_all()` List DataSets
+   * `dataset_get_info()` Retrieve a DataSet
+   * `dataset_import()` Import data into DataSet
+   * `dataset_query()` Query a DataSet
+   * `dataset_update_info()` Update a DataSet
 5. Group
-   * `group_create()`
-   * `group_delete()`
-   * `group_get_all()`
-   * `group_get()`
-   * `group_update()`
-   * `group_user_add()`
-   * `group_user_get()`
-   * `group_user_remove()`
-6. Page
-   * `page_collection_create()`
-   * `page_collection_delete()`
-   * `page_collection_get()`
-   * `page_collection_update()`
-   * `page_create()`
-   * `page_delete()`
-   * `page_update()`
-7. Personalized Data Permission (PDP)
-   * `pdp_create()`
-   * `pdp_delete()`
-   * `pdp_get_all()`
-   * `pdp_get()`
-   * `pdp_update()`
-8. Project, List, & Task
-   * `plt_attachment_add()`
-   * `plt_attachment_delete()`
-   * `lt_attachment_download()`
-   * `plt_attachment_get()`
-   * `plt_list_create()`
-   * `plt_list_delete()`
-   * `plt_list_get_all()`
-   * `plt_list_get()`
-   * `plt_list_update()`
-   * `plt_project_create()`
-   * `plt_project_delete()`
-   * `plt_project_get_all()`
-   * `plt_project_get()`
-   * `plt_project_member_get()`
-   * `plt_project_member_update()`
-   * `plt_project_update()`
-   * `plt_task_create()`
-   * `plt_task_get_all()`
-   * `plt_task_get()`
-   * `plt_task_update()`
-9. Stream
-   * `stream_create()`
-   * `stream_delete()`
-   * `stream_execution_abort()`
-   * `stream_execution_commit()`
-   * `stream_execution_create()`
-   * `stream_execution_get_all()`
-   * `stream_execution_get()`
-   * `stream_get_all()`
-   * `stream_get()`
-   * `stream_search()`
-   * `stream_update()`
-   * `strea_uploadPart()`
-10. User
-   * `user_create()`
-   * `user_delete()`
-   * `user_get_all()`
-   * `user_get()`
-   * `user_update()`
+   * `pRoGroup()` Group Management
+   * `group_create()` Create a group
+   * `group_delete()` Delete a group
+   * `group_get_all()` List groups
+   * `group_get()` Retrieve a group
+   * `group_update()` Update a group
+   * `group_user_add()` Add a user to a group
+   * `group_user_get()` List users in a group
+   * `group_user_remove()` Remove a user from a group
+7. Page
+   * `pRoPageGet()` Retrieve All Pages
+   * `page_collection_create()` Create a page collection
+   * `page_collection_delete()` Delete a page collection
+   * `page_collection_get()` Retrieve a page collection
+   * `page_collection_update()` Update a page collection
+   * `page_create()` Create a page
+   * `page_delete()` Delete a page
+   * `page_get_all()` List pages
+   * `page_get()` Retrieve a page
+   * `page_update()` Update a page
+9. Personalized Data Permission (PDP)
+   * `pRoPdp()` Manage Personalized Data Permission (PDP) at Scale
+   * `pRoPdpGet()` List Personalized Data Permission (PDP) policies
+   * `pdp_create()` Create a Personalized Data Permission (PDP) Policy
+   * `pdp_delete()` Delete a Personalized Data Permission (PDP) Policy
+   * `pdp_get_all()` List Personalized Data Permission (PDP) policies
+   * `pdp_get()` Retrieve a Personalized Data Permission (PDP) policy
+   * `pdp_update()` Update a Personalized Data Permission (PDP) policy
+11. Project, List, & Task
+   * `plt_attachment_add()` Add attachment
+   * `plt_attachment_delete()` Delete a project
+   * `lt_attachment_download()` Download attachment
+   * `plt_attachment_get()` Retrieve a list of attachments
+   * `plt_list_create()` Create a list
+   * `plt_list_delete()` Delete a list
+   * `plt_list_get_all()` Retrieve all project lists
+   * `plt_list_get()` Retrieve Individual List
+   * `plt_list_update()` Update a list
+   * `plt_project_create()` Create a project
+   * `plt_project_delete()` Delete a project
+   * `plt_project_get_all()` Retrieve all projects
+   * `plt_project_get()` Retrieve individual project
+   * `plt_project_member_get()` Retrieve project members
+   * `plt_project_member_update()` Update project members
+   * `plt_project_update()` Update individual project
+   * `plt_task_create()` Create a task
+   * `plt_task_get_all()` Retrieve all project tasks
+   * `plt_task_get()` Retrieve individual task
+   * `plt_task_update()` Update a Task
+11. Stream
+   * `stream_create()` Create a Stream
+   * `stream_delete()` Delete a Stream
+   * `stream_execution_abort()` Abort a Stream execution
+   * `stream_execution_commit()` Commit a Stream execution
+   * `stream_execution_create()` Create a Stream execution
+   * `stream_execution_get_all()` List Stream executions
+   * `stream_execution_get()` Retrieve a Stream execution
+   * `stream_get_all()` List Streams
+   * `stream_get()` Retrieve a Stream
+   * `stream_search()` Search Streams
+   * `stream_update()` Update a Stream
+   * `strea_uploadPart()` Upload a data part
+11. User
+   * `user_create()` Create A User
+   * `user_delete()` Delete A User
+   * `user_get_all()` List users
+   * `user_get()` Retrieve a user
+   * `user_update()` Update A User
 
