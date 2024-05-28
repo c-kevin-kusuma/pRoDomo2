@@ -2,7 +2,7 @@
 % Please edit documentation in R/plt_project_update.R
 \name{plt_project_update}
 \alias{plt_project_update}
-\title{Retrieve individual project}
+\title{Update individual project}
 \usage{
 plt_project_update(client_id, secret, project_id, body)
 }
