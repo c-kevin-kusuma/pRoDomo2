@@ -20,8 +20,7 @@ devtools::install_github(repo='c-kevin-kusuma/pRoDomo2', ref='main')
 <br />
 
 ## Authentication
-This package relies on DOMO's [OAuth authentication](https://developer.domo.com/portal/1845fc11bbe5d-api-authentication), which means `client_id` and `secret` are required. 
-Please follow these steps to obtain them:
+This package is based on DOMO's [OAuth authentication](https://developer.domo.com/portal/1845fc11bbe5d-api-authentication), please follow these instructions to obtain `client_id` and `secret`:
 1. Get a DOMO instance if you don't already have one: for developers use [developer](https://www.domo.com/start/developer) & students use [student](https://www.domo.com/start/student)
 2. Go to [developer.domo.com](https://developer.domo.com/login) and enter the domain of your DOMO instance (the subdomain before ".domo.com")
 3. Click "Create a client"
