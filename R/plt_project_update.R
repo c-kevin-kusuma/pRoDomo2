@@ -1,4 +1,4 @@
-#' Retrieve individual project
+#' Update individual project
 #'
 #' Updates attributes of an existing project in your Domo instance. The following properties are read-only and cannot be updated with this request: id, members, createdBy, & createdDate.
 #' \href{https://developer.domo.com/portal/bc780d297a0d6-update-a-project}{DOMO Documentation}.
