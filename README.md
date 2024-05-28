@@ -1,5 +1,8 @@
 # pRoDomo2
-The 2nd version of the pRoDomo package with expanded capabilities and enhanced documentations.
+This R package provides seamless integration between DOMO and R programming language. Advanced analytics and a wide range of process automation are possible and made simple by this package.  
+
+While DOMO is a low-code data app platform that takes the power of BI to the next level, R programming language enables data scientists to develop advanced analysis with unlimited flexibility. Integrating both tools will open new doors to possibilities and opportunities. 
+
 <br />
 <br />
 
@@ -12,6 +15,17 @@ if(!require("devtools")) install.packages("devtools")
 # Installing "pRoDomo2" package from github
 devtools::install_github(repo='c-kevin-kusuma/pRoDomo2', ref='main')
 ```
+<br />
+
+## Authentication
+This package relies on DOMO's [OAuth authentication](https://developer.domo.com/portal/1845fc11bbe5d-api-authentication), which means `client_id` and `secret` are required. 
+Please follow these steps to obtain them:
+1. Get a DOMO instance if you don't already have one: for developers use [developer](https://www.domo.com/start/developer) & students use [student](https://www.domo.com/start/student)
+2. Go to [developer.domo.com](https://developer.domo.com/login) and enter the domain of your DOMO instance (the subdomain before ".domo.com")
+3. Click "Create a client"
+4. Give your client a name and select its scope
+5. Click "Create", you'll then be provided with `client_id` and `secret`
+
 <br />
 
 ## Create A Dataset
