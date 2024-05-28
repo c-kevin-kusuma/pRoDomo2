@@ -1,4 +1,4 @@
-#' Retrieve list of attachments
+#' Retrieve a list of attachments
 #'
 #' Retrieve details about all of the attachments belonging to a particular task.
 #' \href{https://developer.domo.com/portal/a571924a55d11-retrieve-list-of-attachments}{DOMO Documentation}.
