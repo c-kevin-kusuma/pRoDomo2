@@ -34,7 +34,7 @@ This package is based on DOMO's [OAuth authentication](https://developer.domo.co
 `pRoDsCreate()` function lets you create an API dataset from your R environment by leveraging STREAM API that loads data parts at scale.
 It will then `print()` the dataset_id of the newly created dataset on the console.
 ```r
-pRoDsCreate(client_id = client_id,
+pRoDomo2::pRoDsCreate(client_id = client_id,
   secret = secret,
   dataset = dataset,
   dataset_name = 'The Name of the Dataset',
@@ -49,7 +49,7 @@ pRoDsCreate(client_id = client_id,
 `pRoDsUpdate()` function lets you update an existing API dataset from your R environment by leveraging STREAM API that loads data parts at scale.
 This function cannot be used to update datasets created from non-API methods.
 ```r
-pRoDsUpdate(client_id = client_id,
+pRoDomo2::pRoDsUpdate(client_id = client_id,
   secret = secret,
   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
   dataset = dataset)
@@ -61,7 +61,7 @@ pRoDsUpdate(client_id = client_id,
 ## Query A Dataset
 `pRoDsGet()` function lets you query any datasets from your DOMO instance using MySQL.
 ```r
-data <- pRoDsGet(client_id = client_id,
+data <- pRoDomo2::pRoDsGet(client_id = client_id,
   secret = secret,
   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
   sql_query = "select * from table")
@@ -90,7 +90,7 @@ If a combination on the master table doesn't exist on DOMO, the function will cr
 If a combination on the master table doesn't have the same values on DOMO, the function will update the policy based on what's on the master table.
 If an existing combination doesn't exist on the master table, the function will delete the policy. 
 ```r
-pRoPdp(client_id = client_id,
+pRoDomo2::pRoPdp(client_id = client_id,
   secret = secret,
   data_table = data_table)
 ```
@@ -112,7 +112,7 @@ If a combination of `group_id` and `user_id` on the master table doesn't exist o
 If a combination of `group_id` and `user_id` on DOMO doesn't exist on the master table, the function will remove the user from the group. 
 
 ```r
-pRoGroup(client_id = client_id,
+pRoDomo2::pRoGroup(client_id = client_id,
   secret = secret,
   data_table = data_table)
 ```
@@ -124,16 +124,16 @@ pRoGroup(client_id = client_id,
 `pRoActivity()` function lets you retrieve all activities within a certain period defined by `start` and `end` parameters. Those parameters can be either POSIX (milliseconds) or date values. 
 ```r
 # Last 24 hours
-data <- pRoActivity(client_id = client_id, secret = secret)
+data <- pRoDomo2::pRoActivity(client_id = client_id, secret = secret)
 
 # A particular period
-data <- pRoActivity(client_id = client_id,
+data <- pRoDomo2::pRoActivity(client_id = client_id,
   secret = secret,
   start = as.Date('2024-01-01'),
   end = as.Date('2024-01-02'))
 
 # From a particular date to now
-data <- pRoActivity(client_id = client_id,
+data <- pRoDomo2::pRoActivity(client_id = client_id,
   secret = secret,
   start = as.Date('2024-01-01'))
 ```
@@ -145,7 +145,7 @@ data <- pRoActivity(client_id = client_id,
 1. Activity Log
    * `pRoActivity()` Retrieve Activity Log Entries (Simplified)
    * `activity_log()` Retrieve Activity Log Entries
-3. Dataset
+2. Dataset
    * `pRoDsCreate()` Create A New Dataset Via Stream API
    * `pRoDsGet()` Query a DataSet
    * `pRoDsUpdate()` Update A Dataset Via Stream API
@@ -157,7 +157,7 @@ data <- pRoActivity(client_id = client_id,
    * `dataset_import()` Import data into DataSet
    * `dataset_query()` Query a DataSet
    * `dataset_update_info()` Update a DataSet
-5. Group
+3. Group
    * `pRoGroup()` Group Management
    * `group_create()` Create a group
    * `group_delete()` Delete a group
@@ -167,7 +167,7 @@ data <- pRoActivity(client_id = client_id,
    * `group_user_add()` Add a user to a group
    * `group_user_get()` List users in a group
    * `group_user_remove()` Remove a user from a group
-7. Page
+4. Page
    * `pRoPageGet()` Retrieve All Pages
    * `page_collection_create()` Create a page collection
    * `page_collection_delete()` Delete a page collection
@@ -178,7 +178,7 @@ data <- pRoActivity(client_id = client_id,
    * `page_get_all()` List pages
    * `page_get()` Retrieve a page
    * `page_update()` Update a page
-9. Personalized Data Permission (PDP)
+5. Personalized Data Permission (PDP)
    * `pRoPdp()` Manage Personalized Data Permission (PDP) at Scale
    * `pRoPdpGet()` List Personalized Data Permission (PDP) policies
    * `pdp_create()` Create a Personalized Data Permission (PDP) Policy
@@ -186,10 +186,10 @@ data <- pRoActivity(client_id = client_id,
    * `pdp_get_all()` List Personalized Data Permission (PDP) policies
    * `pdp_get()` Retrieve a Personalized Data Permission (PDP) policy
    * `pdp_update()` Update a Personalized Data Permission (PDP) policy
-11. Project, List, & Task
+6. Project, List, & Task
    * `plt_attachment_add()` Add attachment
    * `plt_attachment_delete()` Delete a project
-   * `lt_attachment_download()` Download attachment
+   * `plt_attachment_download()` Download attachment
    * `plt_attachment_get()` Retrieve a list of attachments
    * `plt_list_create()` Create a list
    * `plt_list_delete()` Delete a list
@@ -207,7 +207,7 @@ data <- pRoActivity(client_id = client_id,
    * `plt_task_get_all()` Retrieve all project tasks
    * `plt_task_get()` Retrieve individual task
    * `plt_task_update()` Update a Task
-11. Stream
+7. Stream
    * `stream_create()` Create a Stream
    * `stream_delete()` Delete a Stream
    * `stream_execution_abort()` Abort a Stream execution
@@ -219,8 +219,8 @@ data <- pRoActivity(client_id = client_id,
    * `stream_get()` Retrieve a Stream
    * `stream_search()` Search Streams
    * `stream_update()` Update a Stream
-   * `strea_uploadPart()` Upload a data part
-11. User
+   * `stream_uploadPart()` Upload a data part
+8. User
    * `user_create()` Create A User
    * `user_delete()` Delete A User
    * `user_get_all()` List users
