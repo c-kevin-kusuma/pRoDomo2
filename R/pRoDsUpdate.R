@@ -1,4 +1,4 @@
-#' Update A Dataset
+#' Update A Dataset Via Stream API
 #'
 #' It is best practice to use this function to update an existing API dataset as it leverages STREAM API that loads data parts at scale.
 #' @param client_id A client_id that can be created on the developer.domo.com page.
