@@ -2,7 +2,7 @@
 % Please edit documentation in R/pRoDsUpdate.R
 \name{pRoDsUpdate}
 \alias{pRoDsUpdate}
-\title{Update A Dataset}
+\title{Update A Dataset Via Stream API}
 \usage{
 pRoDsUpdate(
   client_id,
