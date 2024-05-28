@@ -76,7 +76,7 @@ Each combination of `Dataset ID` + `Policy Name` + `Policy Column` will make one
 
 Here's an example of a master table:
 |Dataset ID                           |Policy Name |Policy Column |User ID |Policy Value |
-|-------------------------------------|------------|--------------|--------|-------------|
+|:------------------------------------|:-----------|:-------------|:-------|:------------|
 |3c907f1e-846c-4d06-88f6-35592db151f4 |Policy 1    |Column 1      |1234567 |Value 1      |
 |3c907f1e-846c-4d06-88f6-35592db151f4 |Policy 1    |Column 1      |1234567 |Value 2      |
 |3c907f1e-846c-4d06-88f6-35592db151f4 |Policy 2    |Column 1      |8984038 |Value 1      |
@@ -101,7 +101,7 @@ pRoDomo2::pRoPdp(client_id = client_id,
 ## Manage Group Memberships at Scale
 `pRoGroup()` function lets you manage the memberships of groups based on a certain table. The master table must include `group_id` and `user_id` fields. Here's an example:
 |group_id     |user_id     |
-|-------------|------------|
+|:------------|:-----------|
 |324567885    |8984038     |
 |324567885    |1234567     |
 |324567885    |5427613     |
