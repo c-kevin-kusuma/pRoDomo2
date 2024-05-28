@@ -1,5 +1,5 @@
 # pRoDomo2
-`pRoDomo2` R package provides seamless integration between DOMO and R programming language. Advanced analytics and a wide range of process automation are possible and made simple by this package.  
+`pRoDomo2` R package provides a seamless integration between DOMO and R programming language. Advanced analytics and a wide range of process automation are possible and made simple by this package.  
 
 While DOMO is a low-code data app platform that takes the power of BI to the next level, R programming language enables data scientists to develop advanced analysis with unlimited flexibility. Integrating both tools will open new doors to possibilities and opportunities. 
 
