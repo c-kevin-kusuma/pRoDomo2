@@ -14,6 +14,7 @@ if(!require("devtools")) install.packages("devtools")
 
 # Installing "pRoDomo2" package from github
 devtools::install_github(repo='c-kevin-kusuma/pRoDomo2', ref='main')
+```
 
 <br />
 <br />
