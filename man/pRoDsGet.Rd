@@ -2,7 +2,7 @@
 % Please edit documentation in R/pRoDsGet.R
 \name{pRoDsGet}
 \alias{pRoDsGet}
-\title{Query a DataSet Through Parallelism}
+\title{Query a DataSet}
 \usage{
 pRoDsGet(
   client_id,
@@ -33,7 +33,5 @@ Queries the data in an existing Domo DataSet.
 dataset_query(client_id = client_id,
   secret = secret,
   dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
-  sql_query = 'select * from',
-  parallel = TRUE,
-  n_core = 7)
+  sql_query = 'select * from')
 }

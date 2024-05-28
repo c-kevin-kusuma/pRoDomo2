@@ -12,7 +12,7 @@ pRoGroup(client_id, secret, data_table)
 \item{secret}{A secret that can created on the \url{developer.domo.com} page.}
 
 \item{data_table}{A dataframe/tibble that contains two required fields:
-\enumerates{
+\enumerate{
 \item group_id
 \item user_id}}
 }

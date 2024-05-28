@@ -2,7 +2,7 @@
 % Please edit documentation in R/pRoDsUpdate.R
 \name{pRoDsUpdate}
 \alias{pRoDsUpdate}
-\title{Create A New Dataset Via Stream API}
+\title{Update A Dataset}
 \usage{
 pRoDsUpdate(
   client_id,
@@ -18,16 +18,20 @@ pRoDsUpdate(
 
 \item{secret}{A secret that can created on the developer.domo.com page.}
 
-\item{nameLike}{If included, will limit the list of DataSets to those with names that contain the string passed in. nameLike is case insensitive.}
+\item{dataset_id}{The unique ID of the dataset.}
 
-\item{sort}{The DataSet field to sort by. Fields prefixed with a negative sign reverses the sort (i.e. '-name' does a reverse sort by the name of the DataSets).}
+\item{dataset}{The data frame that will be uploaded to DOMO.}
+
+\item{parallel}{(Optional) If TRUE, the function will use multiple cores to upload the data frame. `n_core` is required when `parallel` = TRUE.}
+
+\item{n_core}{(Optional) The number of cores to use from your device. It's recommended to leave one core free. If you have 8 cores, enter `n_core` = 7.}
 }
 \description{
-It is best practice to use this function to create a new dataset as it leverages STREAM API that loads data parts at scale.
+It is best practice to use this function to update an existing API dataset as it leverages STREAM API that loads data parts at scale.
 }
 \examples{
-dataset_get_info_all(client_id = client_id,
+pRoDsUpdate(client_id = client_id,
   secret = secret,
-  nameLike = 'first',
-  sort = 'name')
+  dataset_id = '3c907f1e-846c-4d06-88f6-35592db151f4',
+  dataset = dataset)
 }
