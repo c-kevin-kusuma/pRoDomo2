@@ -2,7 +2,7 @@
 % Please edit documentation in R/plt_attachment_get.R
 \name{plt_attachment_get}
 \alias{plt_attachment_get}
-\title{Retrieve list of attachments}
+\title{Retrieve a list of attachments}
 \usage{
 plt_attachment_get(client_id, secret, project_id, list_id, task_id)
 }
