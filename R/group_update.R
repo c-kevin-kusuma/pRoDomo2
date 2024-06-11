@@ -2,8 +2,8 @@
 #'
 #' Updates the specified group by providing values to parameters passed. Any parameter left out of the request will cause the specific group’s attribute to remain unchanged.
 #' \href{https://developer.domo.com/portal/270fc7c8d702b-update-a-group}{DOMO Documentation}.
-#' @param client_id A client_id that can be created on the developer.domo.com page.
-#' @param secret A secret that can be created on the developer.domo.com page.
+#' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param group_id The unique ID of the group.
 #' @param name The name of the group.
 #' @param active To either set the group active or inactive. \strong{\emph{Optional}}

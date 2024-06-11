@@ -3,7 +3,7 @@
 #' List the users in a group in your Domo instance.
 #' \href{https://developer.domo.com/portal/1ce9b0022073a-list-users-in-a-group}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param group_id The unique ID of the group.
 #' @examples group_user_get(client_id = client_id,
 #'   secret = secret,

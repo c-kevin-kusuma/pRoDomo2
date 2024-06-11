@@ -3,7 +3,7 @@
 #' Add a multipart form file to a task item as an attachment.
 #' \href{https://developer.domo.com/portal/ea34b968c5164-add-attachment}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @param list_id The unique ID of the list.
 #' @param task_id The unique ID of the task.

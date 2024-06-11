@@ -3,7 +3,7 @@
 #' Import data into a DataSet in your Domo instance. This request will replace the data currently in the DataSet.
 #' \href{https://developer.domo.com/portal/4ba1c85b30ae1-import-data-into-data-set}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param data_table A dataframe/tibble. The function will convert the data_table into a csv before uploading.
 #' @examples dataset_import(client_id = client_id,

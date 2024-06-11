@@ -3,7 +3,7 @@
 #' Retrieves the details of an existing stream.
 #' \href{https://developer.domo.com/portal/3104e81ceff46-retrieve-a-stream}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param stream_id The unique ID of the stream.
 #' @examples stream_get(client_id = client_id,
 #'   secret = secret,

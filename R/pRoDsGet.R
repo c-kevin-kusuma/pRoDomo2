@@ -2,7 +2,7 @@
 #'
 #' Queries the data in an existing Domo DataSet.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param sql_query SQL query, defaulted to: \code{select * from table}.
 #' @param parallel Leveraging the \code{\link{foreach}} package to export data by breaking it into smaller chunks.

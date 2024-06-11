@@ -3,7 +3,7 @@
 #' Update the details of a list given an existing project id and list id.
 #' \href{https://developer.domo.com/portal/2f759304cdacc-update-a-list}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @param list_id The unique ID of the list.
 #' @param body The content of the list. Please refer to the documentation for details.

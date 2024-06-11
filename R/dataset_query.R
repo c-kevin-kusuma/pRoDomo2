@@ -3,7 +3,7 @@
 #' Queries the data in an existing Domo DataSet.
 #' \href{https://developer.domo.com/portal/52fd0777839f4-query-a-data-set}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param sql_query SQL query such as \code{select * from table}
 #' @examples dataset_query(client_id = client_id,

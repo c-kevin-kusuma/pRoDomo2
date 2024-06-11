@@ -2,7 +2,7 @@
 #'
 #' Maintain the memberships of groups based on a certain table.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param data_table A dataframe/tibble that contains two required fields:
 #' \enumerate{
 #' \item group_id

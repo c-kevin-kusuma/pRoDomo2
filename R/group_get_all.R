@@ -3,7 +3,7 @@
 #' Get a list of all groups in your Domo instance.
 #' \href{https://developer.domo.com/portal/d7364df8a5f06-list-groups}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @examples group_get_all(client_id = client_id, secret = secret)
 #' @export
 

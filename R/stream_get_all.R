@@ -3,7 +3,7 @@
 #' Get a list of all Streams for which the user has view permissions.
 #' \href{https://developer.domo.com/portal/242dd31d0746d-create-a-stream-execution}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param limit The amount of Stream to return in the list. The default is 50 and the maximum is 500.
 #' @param offset The offset of the Stream ID to begin list of users within the response.
 #' @examples stream_get_all(client_id = client_id,

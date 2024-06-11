@@ -2,7 +2,7 @@
 #'
 #' Retrieves the details of an existing page.
 #' \href{https://developer.domo.com/portal/5fd5b9d881e6b-retrieve-a-page}{DOMO Documentation}.
-#' @param client_id A client_id that can be created on the \url{developer.domo.com} page.\url{developer.domo.com} page.
+#' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
 #' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param page_id The ID of the page.
 #' @examples page_get(client_id = client_id,

@@ -3,7 +3,7 @@
 #' Retrieves a list of all projects that the client scope has access to.
 #' \href{https://developer.domo.com/portal/631f21c3c5f5f-retrieve-all-projects}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @examples plt_project_get_all(client_id = client_id, secret = secret)
 #' @export
 

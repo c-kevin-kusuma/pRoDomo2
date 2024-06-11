@@ -1,9 +1,9 @@
-#' Delete a project
+#' Delete an attachment
 #'
-#' \strong{This is destructive and cannot be reversed.} Permanently deletes a project from your Domo instance.
+#' \strong{This is destructive and cannot be reversed.} Permanently deletes an attachment from your task.
 #' \href{https://developer.domo.com/portal/abc4b606acabc-delete-an-attachment}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @param list_id The unique ID of the list.
 #' @param task_id The unique ID of the task.

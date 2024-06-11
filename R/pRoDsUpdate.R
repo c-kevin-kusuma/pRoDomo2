@@ -1,8 +1,8 @@
 #' Update A Dataset Via Stream API
 #'
 #' It is best practice to use this function to update an existing API dataset as it leverages STREAM API that loads data parts at scale.
-#' @param client_id A client_id that can be created on the developer.domo.com page.
-#' @param secret A secret that can created on the developer.domo.com page.
+#' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param dataset The data frame that will be uploaded to DOMO.
 #' @param parallel (Optional) If TRUE, the function will use multiple cores to upload the data frame. `n_core` is required when `parallel` = TRUE.

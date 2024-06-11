@@ -3,7 +3,7 @@
 #' Returns all Stream objects that meet argument criteria from original request.
 #' \href{https://developer.domo.com/portal/41db49e09d006-search-streams}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param qualifiers The search qualifiers to search by available qualifiers: dataSource.id or dataSource.owner.id
 #' @param fields Return desired fields: {all} or {id, dataset, updateMethod, createdAt, or modifiedAt}
 #' @examples stream_search(client_id = client_id,

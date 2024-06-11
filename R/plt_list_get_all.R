@@ -3,7 +3,7 @@
 #' Retrieves all lists available within a given project id.
 #' \href{https://developer.domo.com/portal/38e89edd950ec-retrieve-all-project-lists}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @examples
 #' plt_list_get_all(client_id = client_id,

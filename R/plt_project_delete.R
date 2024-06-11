@@ -3,7 +3,7 @@
 #' \strong{This is destructive and cannot be reversed.} Permanently deletes a project from your Domo instance.
 #' \href{https://developer.domo.com/portal/f884f3d008a49-delete-a-project}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @examples plt_project_delete(client_id = client_id,
 #'   secret = secret,

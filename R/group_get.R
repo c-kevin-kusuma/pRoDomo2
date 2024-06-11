@@ -3,7 +3,7 @@
 #' Retrieves the details of an existing group.
 #' \href{https://developer.domo.com/portal/1f17fb4f14577-retrieve-a-group}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param group_id The unique ID of the group.
 #' @examples group_get(client_id = client_id,
 #'   secret = secret,

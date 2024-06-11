@@ -1,8 +1,9 @@
 #' Update a page collection
 #'
 #' Update a page collection.
-#' @param client_id A client_id that can be created on the developer.domo.com page.
-#' @param secret A secret that can be created on the developer.domo.com page.
+#' \href{https://developer.domo.com/portal/4dc767f205764-update-a-page-collection}{DOMO Documentation}.
+#' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param page_id The ID of the page.
 #' @param page_collection_id The ID of the page collection.
 #' @param body The parameters of the page collection.

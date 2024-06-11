@@ -3,7 +3,7 @@
 #' \strong{This is destructive and cannot be reversed.} Permanently deletes a PDP policy on a DataSet in your Domo instance.
 #' \href{https://developer.domo.com/portal/1d5e64ae6ce1a-delete-a-personlized-data-permission-pdp-policy}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param pdp_id The unique ID of the policy
 #' @examples pdp_delete(client_id = client_id,

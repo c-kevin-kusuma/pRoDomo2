@@ -4,7 +4,7 @@
 #' Parts can be uploaded simultaneously in separate threads assuming that each part has a distinct part ID and is ordered correctly. To reduce upload time, compress each data as a gzip file (application/gzip).
 #' \href{https://developer.domo.com/portal/f186ddf30fca9-upload-a-data-part}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the developer.domo.com page.
-#' @param secret A secret that can created on the developer.domo.com page.
+#' @param secret A secret that can be created on the developer.domo.com page.
 #' @param execution_id The ID of the Stream execution within the Stream.
 #' @param part_id The ID of the data part being used to upload a subset of data within the Stream execution.
 #' @param stream_id The ID of the Stream of data being imported into a DataSet.

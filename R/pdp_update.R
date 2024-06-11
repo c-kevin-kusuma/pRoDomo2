@@ -3,7 +3,7 @@
 #' Update the specific PDP policy for a DataSet by providing values to parameters passed.
 #' \href{https://developer.domo.com/portal/dcdf6cd230d61-update-a-personalized-data-permission-pdp-policy}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param dataset_id The unique ID of the dataset.
 #' @param pdp_id The unique ID of the policy.
 #' @param body Parameters to update the policy.

@@ -3,7 +3,7 @@
 #' Updates attributes of an existing project in your Domo instance. The following properties are read-only and cannot be updated with this request: id, members, createdBy, & createdDate.
 #' \href{https://developer.domo.com/portal/bc780d297a0d6-update-a-project}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param project_id The unique ID of the project.
 #' @param body The parameters needed to create the project.
 #' @examples

@@ -3,7 +3,7 @@
 #' \strong{This is destructive and cannot be reversed.} Permanently deletes a group from your Domo instance.
 #' \href{https://developer.domo.com/portal/b268da0278c85-delete-a-group}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param group_id The unique ID of the group.
 #' @examples group_delete(client_id = client_id,
 #'   secret = secret,

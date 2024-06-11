@@ -4,7 +4,7 @@
 #' Creating an Execution on a Stream will abort all other Executions on that Stream. Each Stream can only have one active Execution at a time.
 #' \href{https://developer.domo.com/portal/242dd31d0746d-create-a-stream-execution}{DOMO Documentation}.
 #' @param client_id A client_id that can be created on the \url{developer.domo.com} page.
-#' @param secret A secret that can created on the \url{developer.domo.com} page.
+#' @param secret A secret that can be created on the \url{developer.domo.com} page.
 #' @param stream_id The unique ID of the stream.
 #' @examples stream_execution_create(client_id = client_id,
 #'   secret = secret,
