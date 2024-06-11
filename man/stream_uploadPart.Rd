@@ -9,7 +9,7 @@ stream_uploadPart(client_id, secret, execution_id, part_id, stream_id, body)
 \arguments{
 \item{client_id}{A client_id that can be created on the developer.domo.com page.}
 
-\item{secret}{A secret that can created on the developer.domo.com page.}
+\item{secret}{A secret that can be created on the developer.domo.com page.}
 
 \item{execution_id}{The ID of the Stream execution within the Stream.}
 

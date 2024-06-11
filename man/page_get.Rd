@@ -7,7 +7,7 @@
 page_get(client_id, secret, page_id)
 }
 \arguments{
-\item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.\url{developer.domo.com} page.}
+\item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
 \item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 

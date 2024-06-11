@@ -2,14 +2,14 @@
 % Please edit documentation in R/plt_attachment_delete.R
 \name{plt_attachment_delete}
 \alias{plt_attachment_delete}
-\title{Delete a project}
+\title{Delete an attachment}
 \usage{
 plt_attachment_delete(client_id, secret, project_id, task_id, attachment_id)
 }
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{project_id}{The unique ID of the project.}
 
@@ -20,7 +20,7 @@ plt_attachment_delete(client_id, secret, project_id, task_id, attachment_id)
 \item{list_id}{The unique ID of the list.}
 }
 \description{
-\strong{This is destructive and cannot be reversed.} Permanently deletes a project from your Domo instance.
+\strong{This is destructive and cannot be reversed.} Permanently deletes an attachment from your task.
 \href{https://developer.domo.com/portal/abc4b606acabc-delete-an-attachment}{DOMO Documentation}.
 }
 \examples{

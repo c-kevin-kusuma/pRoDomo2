@@ -9,7 +9,7 @@ plt_project_get_all(client_id, secret)
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 }
 \description{
 Retrieves a list of all projects that the client scope has access to.

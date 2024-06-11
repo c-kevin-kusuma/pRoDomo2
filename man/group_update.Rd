@@ -7,9 +7,9 @@
 group_update(client_id, secret, group_id, name, active = TRUE, default = FALSE)
 }
 \arguments{
-\item{client_id}{A client_id that can be created on the developer.domo.com page.}
+\item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can be created on the developer.domo.com page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{group_id}{The unique ID of the group.}
 

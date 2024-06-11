@@ -9,7 +9,7 @@ pRoGroup(client_id, secret, data_table)
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{data_table}{A dataframe/tibble that contains two required fields:
 \enumerate{

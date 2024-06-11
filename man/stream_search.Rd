@@ -9,7 +9,7 @@ stream_search(client_id, secret, dataset_id, fields = "all")
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{fields}{Return desired fields: {all} or {id, dataset, updateMethod, createdAt, or modifiedAt}}
 

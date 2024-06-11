@@ -7,19 +7,31 @@
 page_update(client_id, secret, page_id, body)
 }
 \arguments{
-\item{client_id}{A client_id that can be created on the developer.domo.com page.}
+\item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the developer.domo.com page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
-\item{name}{The name of the group.}
+\item{page_id}{The ID of the page.}
+
+\item{body}{An R \code{list()} that contains the specified definitions of the new page such as:
+\itemize{
+  \item \strong{name:} The name of the page.
+  \item \strong{parentId:} If provided, the page will be created as a subpage to the page provided.
+  \item \strong{locked:} will restrict other users the ability to make edits to page or its content - the default value is false.
+  \item \strong{cardIds:} IDs provided will add or remove cards that are not a part of a page collection.
+  \item \strong{visibility:} Determines the access given to both individual users or groups within Domo by providing these 2 parameters:
+  \itemize{
+    \item \strong{userIds:} The IDs of users that will be given access to view the page.
+    \item \strong{groupIds:} The IDs of groups that will be given access to view the page.}}}
 }
 \description{
 Updates the specified page by providing values to parameters passed. Any parameter left out of the request will cause the specific page’s attribute to remain unchanged.
 Also, collections cannot be added or removed via this endpoint, only reordered. Giving access to a user or group will also cause that user or group to have access to the parent page (if the page is a subpage). Moving a page by updating the parentId will also cause everyone with access to the page to have access to the new parent page.
+\href{https://developer.domo.com/portal/93a60be5d5965-update-a-page}{DOMO Documentation}.
 }
 \examples{
 page_update(client_id = client_id,
   secret = secret,
   user_id = '123456789',
-  body = list(name = 'New Name'))
+  body = list(name = 'New Name', locked = 'true'))
 }

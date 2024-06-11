@@ -16,7 +16,7 @@ pRoDsGet(
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{dataset_id}{The unique ID of the dataset.}
 

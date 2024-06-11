@@ -9,7 +9,7 @@ stream_get_all(client_id, secret, limit = 500, offset = 0)
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can created on the \url{developer.domo.com} page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{limit}{The amount of Stream to return in the list. The default is 50 and the maximum is 500.}
 

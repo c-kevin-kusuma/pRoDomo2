@@ -7,9 +7,9 @@
 page_collection_update(client_id, secret, page_id, page_collection_id, body)
 }
 \arguments{
-\item{client_id}{A client_id that can be created on the developer.domo.com page.}
+\item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
 
-\item{secret}{A secret that can be created on the developer.domo.com page.}
+\item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
 \item{page_id}{The ID of the page.}
 
@@ -19,6 +19,7 @@ page_collection_update(client_id, secret, page_id, page_collection_id, body)
 }
 \description{
 Update a page collection.
+\href{https://developer.domo.com/portal/4dc767f205764-update-a-page-collection}{DOMO Documentation}.
 }
 \examples{
 cardIds <- list(); cardIds[[1]] <- 96460956
