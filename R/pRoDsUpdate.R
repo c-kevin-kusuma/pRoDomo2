@@ -54,6 +54,7 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
   # Extract Schema
   dataset.current <- dataset_get_info(client_id = client_id, secret = secret, dataset_id = dataset_id)
   schema_current <- dataset.current$schema
+  dataset <- data.frame(dataset)
   schema <- data_type_extract(dataset)
 
   # Row Estimation For Partitioning
