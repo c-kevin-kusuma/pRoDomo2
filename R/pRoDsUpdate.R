@@ -41,13 +41,12 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
       type = b1[[i]][1]
 
       schema[[i]] <- list(
-        name = b[i],
         type = ifelse(type == 'numeric', 'DOUBLE',
                       ifelse(type == 'Date', 'DATE',
                              ifelse(type == 'POSIXct', 'DATETIME',
                                     ifelse(type == 'POSIXlt', 'DATETIME',
                                            ifelse(type == 'integer', 'LONG',
-                                                  'STRING')))))) }
+                                                  'STRING'))))), name = b[i]) }
     schema = list(columns = schema)
     return(schema)
   }
