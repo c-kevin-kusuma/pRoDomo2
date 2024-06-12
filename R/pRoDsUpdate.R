@@ -35,18 +35,19 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
   }
   data_type_extract <- function(x){
     b <- colnames(x)
+    b1 <- sapply(x, class)
     schema <- list()
     for (i in 1:ncol(x)) {
-      name = b[i]
-      type = class(x[,i])[1]
+      type = b1[[i]][1]
 
       schema[[i]] <- list(
+        name = b[i],
         type = ifelse(type == 'numeric', 'DOUBLE',
                       ifelse(type == 'Date', 'DATE',
                              ifelse(type == 'POSIXct', 'DATETIME',
                                     ifelse(type == 'POSIXlt', 'DATETIME',
                                            ifelse(type == 'integer', 'LONG',
-                                                  'STRING'))))), name = name) }
+                                                  'STRING')))))) }
     schema = list(columns = schema)
     return(schema)
   }
@@ -54,7 +55,6 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
   # Extract Schema
   dataset.current <- dataset_get_info(client_id = client_id, secret = secret, dataset_id = dataset_id)
   schema_current <- dataset.current$schema
-  dataset <- data.frame(dataset)
   schema <- data_type_extract(dataset)
 
   # Row Estimation For Partitioning
