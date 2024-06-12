@@ -35,6 +35,7 @@ user_get_all <- function(client_id, secret) {
 
     nr <- nrow(user)
     if(nr>0) {a[[i+1]] <- user}
+    i <- i+1
     offset <- offset+limit
   }
 
