@@ -54,7 +54,6 @@ pRoDsCreate <- function(client_id, secret, dataset, dataset_name, dataset_descri
   }
 
   # Extract Schema
-  dataset <- data.frame(dataset)
   schema <- data_type_extract(dataset)
   body <- list(dataSet = list(name = dataset_name, description = dataset_description, schema = schema), updateMethod = update_method)
 
