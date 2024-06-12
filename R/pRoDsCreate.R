@@ -42,13 +42,12 @@ pRoDsCreate <- function(client_id, secret, dataset, dataset_name, dataset_descri
       type = b1[[i]][1]
 
       schema[[i]] <- list(
-        name = b[i],
         type = ifelse(type == 'numeric', 'DOUBLE',
                       ifelse(type == 'Date', 'DATE',
                              ifelse(type == 'POSIXct', 'DATETIME',
                                     ifelse(type == 'POSIXlt', 'DATETIME',
                                            ifelse(type == 'integer', 'LONG',
-                                                  'STRING')))))) }
+                                                  'STRING'))))), name = b[i]) }
     schema = list(columns = schema)
     return(schema)
   }
@@ -95,4 +94,3 @@ pRoDsCreate <- function(client_id, secret, dataset, dataset_name, dataset_descri
 
   print(dataset.id)
 }
-
