@@ -41,7 +41,7 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
   if(is.null(sql_query)) {
     sql_query <- "select * from table"
     print(paste0('Defaulted to: ',sql_query, ' limit ', cur$rows))}
-    else {sql_query <- string::str_replace(sql_query, '\n','')}
+    else {sql_query <- string::str_replace_all(sql_query, '\n','')}
 
 
   # Parallel is TRUE
