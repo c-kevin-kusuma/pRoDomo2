@@ -20,5 +20,6 @@ Imports:
   magrittr,
   rlist,
   data.table,
-  foreach
+  foreach,
+  stringr
 RoxygenNote: 7.2.3
