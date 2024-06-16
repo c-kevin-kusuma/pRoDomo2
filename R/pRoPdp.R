@@ -75,11 +75,11 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
     dsID = x
     # Current PDP List
     curPolicy <- pdp_get_all(client_id = client_id, secret = secret, dataset_id = dsID)
-    curPolicyLong <- extractPdp(curPolicy) %>% dplyr::mutate(across(everything(), as.character)) %>% dplyr::filter(`Policy Name` %!like% ignore_policy & `Policy Name` != 'All Rows') %>% dplyr::mutate(cur = 1)
+    curPolicyLong <- extractPdp(curPolicy) %>% dplyr::mutate(across(everything(), as.character)) %>% dplyr::filter(`Policy Name` %!like% ignore_policy & `Policy Name` != 'All Rows')
     curPolicyWide <- curPolicyLong %>% dplyr::select(`Policy ID`, `Policy Name`, `Policy Column`) %>% unique()
 
     # Correct PDP List
-    corPolicyLong <- pdpData %>% dplyr::filter(`Dataset ID` == dsID) %>% select(-`Dataset ID`) %>% dplyr::mutate(cor = 1)
+    corPolicyLong <- pdpData %>% dplyr::filter(`Dataset ID` == dsID) %>% select(-`Dataset ID`)
     corPolicyWide <- corPolicyLong %>% dplyr::arrange(`Policy Name`, `User ID`, `Policy Value`) %>% dplyr::group_by(`Policy Name`, `Policy Column`) %>% dplyr::summarise(`User ID` = paste(unique(`User ID`), collapse = '|'), `Policy Value` = paste(unique(`Policy Value`), collapse = '|'), .groups = 'drop')
 
     # IF NO current policies can be found on the dataset
@@ -105,7 +105,8 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
         dplyr::select(`Policy Name`, `Policy Column`) %>% unique() %>%
         dplyr::anti_join(delList2, by = join_by(`Policy Name`, `Policy Column`)) %>%
         dplyr::anti_join(addList2, by = join_by(`Policy Name`, `Policy Column`)) %>%
-        dplyr::left_join(curPolicyWide, by = join_by(`Policy Name`, `Policy Column`))
+        dplyr::left_join(curPolicyWide, by = join_by(`Policy Name`, `Policy Column`)) %>%
+        dplyr::left_join(corPolicyWide, by = join_by(`Policy Name`, `Policy Column`))
       if(nrow(updList) > 0) {for (i in 1:nrow(updList)) {pdp_update(client_id, secret = secret, dataset_id = dsID, pdp_id = updList$`Policy ID`[i], body = createPdpList(updList[i,]))} } }
   }
 
