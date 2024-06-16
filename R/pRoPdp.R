@@ -99,7 +99,7 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
 
       # Update Policies
       addList2 <- addList %>% dplyr::select(`Policy Name`, `Policy Column`) %>% unique()
-      delList2 <- delList1 %>% dplyr::left_join(curPolicyWide) %>% dplyr::select(`Policy Name`, `Policy Column`) %>% unique()
+      delList2 <- delList1 %>% dplyr::left_join(curPolicyWide, by = join_by(`Policy ID`)) %>% dplyr::select(`Policy Name`, `Policy Column`) %>% unique()
 
       updList <- dplyr::anti_join(corPolicyLong, curPolicyLong, by = join_by(`Policy Name`, `Policy Column`, `Policy Value`)) %>%
         dplyr::select(`Policy Name`, `Policy Column`) %>% unique() %>%
