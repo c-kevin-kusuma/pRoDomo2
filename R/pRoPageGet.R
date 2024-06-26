@@ -20,7 +20,7 @@ pRoPageGet <- function(client_id, secret, data_frame = TRUE) {
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
               query = list(grant_type='client_credentials')))
 
-  limit = 500; offset = 0; i=0; data <- list(); nr=1
+  limit = 50; offset = 0; i=0; data <- list(); nr=1
   while(nr > 0){
     d <- httr::content(
       httr::GET(url = 'https://api.domo.com/v1/pages',
