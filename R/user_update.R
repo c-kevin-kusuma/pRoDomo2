@@ -29,7 +29,7 @@ user_update <- function(client_id, secret, user_id, body) {
     httr::PUT(url = paste0('https://api.domo.com/v1/users/',user_id),
               body = body,
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
-              content_type("application/json"),
+              httr::content_type("application/json"),
               encode = 'json'))
 
   return(user)
