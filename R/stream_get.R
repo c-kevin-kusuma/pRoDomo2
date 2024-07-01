@@ -26,7 +26,7 @@ stream_get <- function(client_id, secret, stream_id) {
   data <- httr::content(
     httr::GET(url = paste0('https://api.domo.com/v1/streams/', stream_id),
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
-              content_type("application/octet-stream"),
+              httr::content_type("application/octet-stream"),
               httr::accept("application/json")))
 
   return(data)
