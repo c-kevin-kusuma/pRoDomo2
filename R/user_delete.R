@@ -26,7 +26,7 @@ user_delete <- function(client_id, secret, user_id) {
   data <- httr::content(
     httr::DELETE(url = paste0('https://api.domo.com/v1/users/',user_id),
                  config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
-                 content_type("application/octet-stream")))
+                 httr::content_type("application/octet-stream")))
 
   return(data)
 }
