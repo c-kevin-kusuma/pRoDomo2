@@ -26,8 +26,8 @@ user_get <- function(client_id, secret, user_id) {
   user <- httr::content(
     httr::GET(url = paste0('https://api.domo.com','/v1/users/',user_id),
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
-              content_type("application/octet-stream"),
-              accept("application/json")))
+              httr::content_type("application/octet-stream"),
+              httr::accept("application/json")))
 
   return(user)
 }
