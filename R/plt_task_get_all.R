@@ -11,7 +11,7 @@
 #' @export
 
 
-plt_task_get_all <- function(client_id, secret, project_id) {
+plt_task_get_all <- function(client_id, secret, project_id, data_frame = T) {
 
   # Check Required Packages
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}
@@ -28,6 +28,11 @@ plt_task_get_all <- function(client_id, secret, project_id) {
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
               httr::content_type("application/octet-stream"),
               httr::accept("application/json")))
+
+  if(data_frame){
+    to_convert <- tibble::tibble(info = data)
+    data <- tidyr::unnest_wider(to_convert,info)
+  }
 
   return(data)
 }
