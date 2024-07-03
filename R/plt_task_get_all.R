@@ -24,7 +24,7 @@ plt_task_get_all <- function(client_id, secret, project_id) {
               query = list(grant_type='client_credentials')))
 
   data <- httr::content(
-    httr::GET(url = paste0('https://api.domo.com/v1/projects/',project_id,'/tasks?),
+    httr::GET(url = paste0('https://api.domo.com/v1/projects/',project_id,'/tasks?'),
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
               httr::content_type("application/octet-stream"),
               httr::accept("application/json")))
