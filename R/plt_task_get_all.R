@@ -23,24 +23,11 @@ plt_task_get_all <- function(client_id, secret, project_id) {
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
               query = list(grant_type='client_credentials')))
 
-  limit = 1
-  offset = 1
-
-  i=0
-  data <- list()
-  nr=1
-  while(nr > 0){
-    d <- httr::content(
-      httr::GET(url = paste0('https://api.domo.com/v1/projects/',project_id,'/tasks?offset=',offset,'&limit=',limit),
-                config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
-                httr::content_type("application/octet-stream"),
-                httr::accept("application/json")))
-
-    nr <- length(d)
-    i <- i+1
-    offset <- offset+limit
-    data[[i]] <- d
-  }
+  data <- httr::content(
+    httr::GET(url = paste0('https://api.domo.com/v1/projects/',project_id,'/tasks?offset=',offset,'&limit=',limit),
+              config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
+              httr::content_type("application/octet-stream"),
+              httr::accept("application/json")))
 
   return(data)
 }
