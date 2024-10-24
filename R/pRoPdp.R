@@ -101,7 +101,10 @@ pRoPdp <- function(client_id, secret, data_table, parallel = FALSE, n_core = NUL
       addList2 <- addList %>% dplyr::select(`Policy Name`, `Policy Column`) %>% unique()
       delList2 <- delList1 %>% dplyr::left_join(curPolicyWide, by = join_by(`Policy ID`)) %>% dplyr::select(`Policy Name`, `Policy Column`) %>% unique()
 
-      updList <- dplyr::anti_join(corPolicyLong, curPolicyLong, by = join_by(`Policy Name`, `Policy Column`, `Policy Value`)) %>%
+      updList <- dplyr::bind_rows(
+        dplyr::anti_join(corPolicyLong, curPolicyLong, by = join_by(`Policy Name`, `Policy Column`, `Policy Value`)),
+        dplyr::anti_join(curPolicyLong, corPolicyLong, by = join_by(`Policy Name`, `Policy Column`, `Policy Value`))
+      ) %>%
         dplyr::select(`Policy Name`, `Policy Column`) %>% unique() %>%
         dplyr::anti_join(delList2, by = join_by(`Policy Name`, `Policy Column`)) %>%
         dplyr::anti_join(addList2, by = join_by(`Policy Name`, `Policy Column`)) %>%
