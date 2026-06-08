@@ -27,7 +27,7 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
 
   # Functions
   estimate_rows <- function (data) {
-    sz <- as.numeric(pryr::object_size(data)) / 1000
+    sz <- as.numeric(lobstr::obj_size(data)) / 1000
     targetSize <- 30000
     if (sz > targetSize)
       return(floor(nrow(data)*(targetSize) / (sz)))
