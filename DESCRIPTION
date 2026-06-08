@@ -20,5 +20,6 @@ Imports:
   rlist,
   data.table,
   foreach,
-  stringr
+  stringr,
+  lobstr
 RoxygenNote: 7.2.3
