@@ -11,7 +11,7 @@
 #'   Defaults to \code{10000}.
 #'
 #' @examples
-#' appdb_get(
+#' appdb_doc_get(
 #'   collection_id = "12345678-1234-1234-1234-123456789012",
 #'   developer_token = developer_token,
 #'   instance = "https://company.domo.com"
@@ -19,7 +19,7 @@
 #'
 #' @export
 
-appdb_get <- function(
+appdb_doc_get <- function(
   collection_id,
   developer_token,
   instance,
