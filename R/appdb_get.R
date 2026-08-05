@@ -1,0 +1,107 @@
+#' Get AppDB Documents
+#'
+#' Retrieves all documents from a Domo AppDB collection and returns
+#' them as a flattened data frame.
+#'
+#' @param collection_id The AppDB collection ID.
+#' @param developer_token A valid Domo Developer Token.
+#' @param instance Domo instance URL. For example:
+#'   \code{"https://company.domo.com"}.
+#' @param batch_limit Number of records to retrieve per API call.
+#'   Defaults to \code{10000}.
+#'
+#' @examples
+#' appdb_get(
+#'   collection_id = "12345678-1234-1234-1234-123456789012",
+#'   developer_token = developer_token,
+#'   instance = "https://company.domo.com"
+#' )
+#'
+#' @export
+
+appdb_get <- function(
+  collection_id,
+  developer_token,
+  instance,
+  batch_limit = 10000
+) {
+
+  # Check Required Packages
+  if (!requireNamespace("httr2", quietly = TRUE)) {
+    stop("Package \"httr2\" must be installed to use this function.",
+         call. = FALSE)
+  }
+
+  if (!requireNamespace("purrr", quietly = TRUE)) {
+    stop("Package \"purrr\" must be installed to use this function.",
+         call. = FALSE)
+  }
+
+  if (!requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Package \"dplyr\" must be installed to use this function.",
+         call. = FALSE)
+  }
+
+  offset <- 0
+  all_documents <- list()
+
+  url <- paste0(
+    instance,
+    "/api/datastores/v1/collections/",
+    collection_id,
+    "/documents"
+  )
+
+  repeat {
+
+    message("Fetching records starting at offset: ", offset)
+
+    response <- httr2::request(
+      paste0(
+        url,
+        "?limit=",
+        batch_limit,
+        "&offset=",
+        offset
+      )
+    ) %>%
+      httr2::req_headers(
+        `X-DOMO-Developer-Token` = developer_token,
+        Accept = "application/json"
+      ) %>%
+      httr2::req_perform()
+
+    batch <- httr2::resp_body_json(response)
+
+    if (length(batch) == 0) {
+      break
+    }
+
+    all_documents <- c(all_documents, batch)
+
+    if (length(batch) < batch_limit) {
+      break
+    }
+
+    offset <- offset + batch_limit
+  }
+
+  if (length(all_documents) == 0) {
+    return(dplyr::tibble())
+  }
+
+  data <- dplyr::bind_rows(
+    purrr::map(
+      all_documents,
+      function(x) {
+
+        record <- x$content
+        record$appdb_document_id <- x$id
+
+        record
+      }
+    )
+  )
+
+  return(data)
+}
