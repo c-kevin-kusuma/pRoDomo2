@@ -25,10 +25,11 @@ pRoDsCreate <- function(client_id, secret, dataset, dataset_name, dataset_descri
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("httr", quietly = TRUE)) {stop("Package \"httr\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("readr", quietly = TRUE)) {stop("Package \"readr\" must be installed to use this function.", call. = FALSE)}
+  if (!requireNamespace("lobstr", quietly = TRUE)) {stop("Package \"lobstr\" must be installed to use this function.", call. = FALSE)}
 
   # Functions
   estimate_rows <- function (data) {
-    sz <- as.numeric(pryr::object_size(dataset)) / 1000
+    sz <- as.numeric(lobstr::obj_size(data)) / 1000
     targetSize <- 30000
     if (sz > targetSize)
       return(floor(nrow(data)*(targetSize) / (sz)))
