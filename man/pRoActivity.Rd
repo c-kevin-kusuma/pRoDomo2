@@ -11,14 +11,17 @@ pRoActivity(client_id, secret, start = NULL, end = NULL, user_id = NULL)
 
 \item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
-\item{start}{(Optional) Only 'numeric' or 'Date' are acceptable as input. The start time(milliseconds) of when you want to receive log events, defaulted to the last 24 hours.}
+\item{start}{(Optional) The start time as a millisecond timestamp, \code{Date}, or POSIX date-time. Defaults to the last 24 hours.}
 
-\item{end}{(Optional) Only 'numeric' or 'Date' are acceptable as input. The end time(milliseconds) of when you want to receive log events, defaulted to now.}
+\item{end}{(Optional) The end time as a millisecond timestamp, \code{Date}, or POSIX date-time. Defaults to now.}
 
 \item{user_id}{(Optional) Specify the ID of the user to retrieve a certain individual's activities.}
 }
 \description{
-This function allows you to retrieves all activity log entries, all time/date values are in UTC.
+This function retrieves all activity log entries. All time/date values are in UTC.
+}
+\details{
+\code{start} and \code{end} may be numeric millisecond timestamps, \code{Date}, or POSIX date-time values. When \code{end} is provided as a \code{Date}, the full day is included by converting it to the next UTC midnight.
 }
 \examples{
 pRoActivity(client_id = client_id,
