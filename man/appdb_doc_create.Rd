@@ -5,15 +5,19 @@
 \title{Create AppDB Document}
 \usage{
 appdb_doc_create(
-  url,
+  collection_id,
   developer_token,
+  instance,
   data
 )
 }
 \arguments{
-\item{url}{The AppDB collection URL.}
+\item{collection_id}{The AppDB collection ID.}
 
 \item{developer_token}{A valid Domo Developer Token.}
+
+\item{instance}{Domo instance URL. For example:
+\code{"https://company.domo.com"}.}
 
 \item{data}{A document payload, typically generated using
 \code{appdb_row_to_document()}.}
@@ -32,8 +36,9 @@ new_data <- appdb_row_to_document(
 )
 
 response <- appdb_doc_create(
-  url = collection_url,
+  collection_id = "12345678-1234-1234-1234-123456789012",
   developer_token = developer_token,
+  instance = "https://company.domo.com",
   data = new_data
 )
 }

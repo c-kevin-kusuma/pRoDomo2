@@ -5,18 +5,22 @@
 \title{Update AppDB Document}
 \usage{
 appdb_doc_update(
-  url,
+  collection_id,
   appdb_document_id,
   developer_token,
+  instance,
   data
 )
 }
 \arguments{
-\item{url}{The AppDB collection URL.}
+\item{collection_id}{The AppDB collection ID.}
 
 \item{appdb_document_id}{The document ID to update.}
 
 \item{developer_token}{A valid Domo Developer Token.}
+
+\item{instance}{Domo instance URL. For example:
+\code{"https://company.domo.com"}.}
 
 \item{data}{A document payload, typically generated using
 \code{appdb_row_to_document()}.}
@@ -35,9 +39,10 @@ update_data <- appdb_row_to_document(
 )
 
 response <- appdb_doc_update(
-  url = collection_url,
+  collection_id = "12345678-1234-1234-1234-123456789012",
   appdb_document_id = "12345678-1234-1234-1234-123456789012",
   developer_token = developer_token,
+  instance = "https://company.domo.com",
   data = update_data
 )
 }

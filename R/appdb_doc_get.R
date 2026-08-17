@@ -45,6 +45,7 @@ appdb_doc_get <- function(
   offset <- 0
   all_documents <- list()
 
+  instance <- sub("/+$", "", instance)
   url <- paste0(
     instance,
     "/api/datastores/v1/collections/",
@@ -56,20 +57,19 @@ appdb_doc_get <- function(
 
     message("Fetching records starting at offset: ", offset)
 
-    response <- httr2::request(
-      paste0(
-        url,
-        "?limit=",
-        batch_limit,
-        "&offset=",
-        offset
-      )
-    ) %>%
-      httr2::req_headers(
-        `X-DOMO-Developer-Token` = developer_token,
-        Accept = "application/json"
-      ) %>%
-      httr2::req_perform()
+    request <- httr2::request(url)
+    request <- httr2::req_url_query(
+      request,
+      limit = batch_limit,
+      offset = offset
+    )
+    request <- httr2::req_headers(
+      request,
+      `X-DOMO-Developer-Token` = developer_token,
+      Accept = "application/json"
+    )
+
+    response <- httr2::req_perform(request)
 
     batch <- httr2::resp_body_json(response)
 

@@ -5,17 +5,21 @@
 \title{Delete AppDB Document}
 \usage{
 appdb_doc_delete(
-  url,
+  collection_id,
   appdb_document_id,
-  developer_token
+  developer_token,
+  instance
 )
 }
 \arguments{
-\item{url}{The AppDB collection URL.}
+\item{collection_id}{The AppDB collection ID.}
 
 \item{appdb_document_id}{The document ID to delete.}
 
 \item{developer_token}{A valid Domo Developer Token.}
+
+\item{instance}{Domo instance URL. For example:
+\code{"https://company.domo.com"}.}
 }
 \description{
 Deletes an existing AppDB document.
@@ -26,8 +30,9 @@ The API response object returned by
 }
 \examples{
 response <- appdb_doc_delete(
-  url = collection_url,
+  collection_id = "12345678-1234-1234-1234-123456789012",
   appdb_document_id = "12345678-1234-1234-1234-123456789012",
-  developer_token = developer_token
+  developer_token = developer_token,
+  instance = "https://company.domo.com"
 )
 }

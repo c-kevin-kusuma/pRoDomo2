@@ -2,11 +2,16 @@
 #'
 #' Updates an existing AppDB document.
 #'
-#' @param url The AppDB collection URL.
+#' @param collection_id The AppDB collection ID.
 #' @param appdb_document_id The document ID to update.
 #' @param developer_token A valid Domo Developer Token.
+#' @param instance Domo instance URL. For example:
+#'   \code{"https://company.domo.com"}.
 #' @param data A document payload, typically generated using
 #'   \code{appdb_row_to_document()}.
+#'
+#' @return The API response object returned by
+#'   \code{httr2::req_perform()}.
 #'
 #' @examples
 #' update_data <- appdb_row_to_document(
@@ -15,18 +20,20 @@
 #' )
 #'
 #' response <- appdb_doc_update(
-#'   url = collection_url,
+#'   collection_id = "12345678-1234-1234-1234-123456789012",
 #'   appdb_document_id = "12345678-1234-1234-1234-123456789012",
 #'   developer_token = developer_token,
+#'   instance = "https://company.domo.com",
 #'   data = update_data
 #' )
 #'
 #' @export
 
 appdb_doc_update <- function(
-  url,
+  collection_id,
   appdb_document_id,
   developer_token,
+  instance,
   data
 ) {
 
@@ -38,22 +45,29 @@ appdb_doc_update <- function(
     )
   }
 
+  instance <- sub("/+$", "", instance)
   update_url <- paste0(
-    url,
-    "/",
+    instance,
+    "/api/datastores/v1/collections/",
+    collection_id,
+    "/documents/",
     appdb_document_id
   )
 
-  response <- httr2::request(update_url) %>%
-    httr2::req_method("PUT") %>%
-    httr2::req_headers(
-      `X-DOMO-Developer-Token` = developer_token
-    ) %>%
-    httr2::req_body_json(
-      data,
-      auto_unbox = TRUE
-    ) %>%
-    httr2::req_perform()
+  request <- httr2::request(update_url)
+  request <- httr2::req_method(request, "PUT")
+  request <- httr2::req_headers(
+    request,
+    `X-DOMO-Developer-Token` = developer_token,
+    Accept = "application/json"
+  )
+  request <- httr2::req_body_json(
+    request,
+    data,
+    auto_unbox = TRUE
+  )
+
+  response <- httr2::req_perform(request)
 
   return(response)
 
