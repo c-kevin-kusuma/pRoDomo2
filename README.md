@@ -144,6 +144,7 @@ data <- pRoDomo2::pRoActivity(client_id = client_id,
 ## Send Email via CodeEngine
 `codeEngine_send_email()` triggers a Domo CodeEngine function to send a custom HTML email to a Domo user. Before using this function, you need to set up a CodeEngine package and function in Domo once.
 
+This function uses `domo_access_token` only; it does not use `client_id` or `secret`.
 The email is sent from Domo's notification email context, not directly from your R session.
 If you pass a data frame into `csv_file`, the function writes it to a temporary CSV file and uploads it to Domo as a `FILE` input.
 
