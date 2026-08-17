@@ -141,6 +141,116 @@ data <- pRoDomo2::pRoActivity(client_id = client_id,
 <br />
 <br />
 
+## Send Email via CodeEngine
+`codeEngine_send_email()` triggers a Domo CodeEngine function to send a custom HTML email to a Domo user. Before using this function, you need to set up a CodeEngine package and function in Domo once.
+
+The email is sent from Domo's notification email context, not directly from your R session.
+If you pass a data frame into `csv_file`, the function writes it to a temporary CSV file and uploads it to Domo as a `FILE` input.
+
+<br />
+
+### Prerequisites: Set Up the CodeEngine Function in Domo
+
+**Step 1 — Open Code Engine**  
+Go to your Domo instance → **Workflows** → **Code Engine**
+
+**Step 2 — Create a new package**  
+Click **Create New Package** and give it a name (e.g. `CustomEmail`). Note the **Package ID**, **version**, and the **function name** you set — you will need these as parameters.
+
+**Step 3 — Add the function**  
+Create a new function named `sendCustomEmail` and paste the following JavaScript:
+
+```javascript
+const codeengine = require('codeengine');
+
+async function sendCustomEmail(userId, subject, htmlBody, groupId, csvFile) {
+  try {
+    const parameters = {
+      subject: subject,
+      text: htmlBody,
+      recipientsUserIds: [Number(userId)],
+      recipientsGroupIds: groupId ? [Number(groupId)] : [],
+      dataFileAttachments: csvFile ? [csvFile] : [],
+      populateReplyToHeaderWithRecipients: false
+    };
+
+    await codeengine.sendRequest(
+      'post',
+      '/api/social/v3/messages/domoWrapperNew:plainText/send?route=recipients&method=EMAIL&recipients=',
+      { parameters },
+      null,
+      null
+    );
+
+    return { success: true, error: '' };
+  } catch (e) {
+    return { success: false, error: e.message || String(e) };
+  }
+}
+```
+
+**Step 4 — Configure inputs**  
+Add five input parameters. The first three are required; the last two are optional and may be left blank:
+
+| Name | Type |
+|:-----|:-----|
+| `userId` | String |
+| `subject` | String |
+| `htmlBody` | String |
+| `groupId` | String (optional) |
+| `csvFile` | FILE (optional, receives the uploaded CSV) |
+
+**Step 5 — Configure output**  
+Add an output named `result` of type **Object** with two child properties:
+
+| Name | Type |
+|:-----|:-----|
+| `success` | Boolean |
+| `error` | String |
+
+**Step 6 — Publish the package**  
+Save and publish. Note your `package_id`, `package_version`, and `function_name` from the package details page.
+
+<br />
+
+### Usage
+
+```r
+result <- pRoDomo2::codeEngine_send_email(
+  user_id         = "123456789",
+  subject         = "Subject of the Email",
+  html_body       = "<p>Hello, your file is ready.</p>",
+  domo_instance   = "your-instance",
+  package_id      = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  package_version = "1.0.0",
+  function_name   = "sendCustomEmail",
+  token           = domo_access_token,
+  group_id        = "987654321",
+  csv_file        = mtcars,
+  csv_file_name   = "your_file.csv"
+)
+
+# Check result
+if (result$sent) {
+  message("Email sent successfully.")
+} else {
+  message("Failed: ", result$error_message)
+}
+```
+
+The function returns a named list and never throws, making it safe to use inside a loop when sending to multiple recipients:
+
+| Field | Description |
+|:------|:------------|
+| `sent` | `TRUE` on success, `FALSE` on failure |
+| `user_id` | The user ID attempted |
+| `http_status_code` | HTTP status returned by the API |
+| `auth_mode` | Auth mode used (`"bearer"` or `"developer"`) |
+| `error_message` | Empty on success; error details on failure |
+
+<br />
+<br />
+
 ## Available Functions
 1. Activity Log
    * `pRoActivity()` Retrieve Activity Log Entries (Simplified)
@@ -226,4 +336,3 @@ data <- pRoDomo2::pRoActivity(client_id = client_id,
    * `user_get_all()` List users
    * `user_get()` Retrieve a user
    * `user_update()` Update A User
-
