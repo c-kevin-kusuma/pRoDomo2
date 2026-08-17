@@ -19,7 +19,7 @@ activity_log(
 
 \item{secret}{A secret that can be created on the \url{developer.domo.com} page.}
 
-\item{start}{The start time(milliseconds) of when you want to receive log events.}
+\item{start}{The start time(milliseconds) of when you want to receive log events. \strong{\emph{Optional}}}
 
 \item{end}{The end time(milliseconds) of when you want to receive log events. \strong{\emph{Optional}}}
 
@@ -30,8 +30,11 @@ activity_log(
 \item{user_id}{Specify the ID of the user to retrieve a certain individual's activities. \strong{\emph{Optional}}}
 }
 \description{
-This function allows you to Retrieves activity log entries and set custom limit and offset, all time/date values are in UTC.
+This function retrieves activity log entries and supports custom limit and offset values. All time/date values are in UTC.
 \href{https://developer.domo.com/portal/i19jain6fvwjj-activity-log-api}{DOMO Documentation}.
+}
+\details{
+Optional query parameters may be left as \code{NULL}. If provided, query parameters must be single, non-\code{NA} values.
 }
 \examples{
 activity_log(client_id = client_id,
