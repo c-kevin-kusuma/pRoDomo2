@@ -20,6 +20,7 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("httr", quietly = TRUE)) {stop("Package \"httr\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("readr", quietly = TRUE)) {stop("Package \"readr\" must be installed to use this function.", call. = FALSE)}
+  if (!requireNamespace("lobstr", quietly = TRUE)) {stop("Package \"lobstr\" must be installed to use this function.", call. = FALSE)}
 
   # Check dataset_id
   stream.searched <- stream_search(client_id = client_id, secret = secret, dataset_id = dataset_id)

@@ -10,6 +10,7 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   httr,
+  httr2,
   dplyr,
   tibble,
   tidyr,
@@ -20,6 +21,8 @@ Imports:
   rlist,
   data.table,
   foreach,
+  doParallel,
+  purrr,
   stringr,
   lobstr
 RoxygenNote: 7.2.3
