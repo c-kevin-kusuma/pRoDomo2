@@ -29,15 +29,15 @@ pRoActivity <- function(client_id, secret, start = NULL, end = NULL, user_id = N
     if (length(x) != 1 || is.na(x)) {stop(paste0("Invalid activity log parameter: ", name), call. = FALSE)}
     if (inherits(x, "Date")) {
       if (name == "end") {x <- x + 1}
-      return(as.numeric(as.POSIXct(x, tz = "UTC")) * 1000)
+      return(floor(as.numeric(as.POSIXct(x, tz = "UTC")) * 1000))
     }
-    if (inherits(x, "POSIXt")) {return(as.numeric(x) * 1000)}
-    if (is.numeric(x)) {return(x)}
+    if (inherits(x, "POSIXt")) {return(floor(as.numeric(x) * 1000))}
+    if (is.numeric(x)) {return(floor(x))}
     stop(paste0("Invalid activity log parameter: ", name), call. = FALSE)
   }
 
   end <- normalize_activity_time(end, "end")
-  if (is.null(end)) {end <- as.numeric(as.POSIXct(Sys.time())) * 1000}
+  if (is.null(end)) {end <- floor(as.numeric(as.POSIXct(Sys.time())) * 1000)}
 
   start <- normalize_activity_time(start, "start")
   if (is.null(start)) {start <- end - 86400000}
