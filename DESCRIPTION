@@ -1,7 +1,7 @@
 Package: pRoDomo2
 Type: Package
 Title: Extend the capabilities of rdomo package
-Version: 2.1.1
+Version: 2.1.5
 Author: Christian Kevin Kusuma
 Maintainer: The package maintainer <c.kevin.kusuma@gmail.com>
 Description: DOMO is a low-code data app platform that takes the power of BI to the next level to combine all your data and put it to work across any business process or workflow.
@@ -24,6 +24,5 @@ Imports:
   doParallel,
   purrr,
   stringr,
-  lobstr,
-  curl
+  lobstr
 RoxygenNote: 7.2.3

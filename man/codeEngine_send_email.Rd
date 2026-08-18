@@ -5,32 +5,29 @@
 \title{Send an email via Domo CodeEngine}
 \usage{
 codeEngine_send_email(
-  user_id,
+  user_id = NULL,
   subject,
-  html_body,
+  html_body = NULL,
   domo_instance,
   package_id,
   package_version,
   function_name,
   token,
   group_id = NULL,
-  csv_file = NULL,
-  csv_file_name = "attachment.csv",
+  file_id = NULL,
   auth_mode = c("auto", "bearer", "developer")
 )
 }
 \arguments{
-\item{user_id}{Numeric Domo user ID of the recipient (e.g. \code{"123456789"}).}
+\item{user_id}{Optional numeric Domo user ID of the recipient (e.g. \code{"123456789"}). Exactly one of \code{user_id} or \code{group_id} must be provided.}
 
 \item{subject}{Email subject line.}
 
-\item{html_body}{Full HTML string for the email body.}
+\item{html_body}{Optional HTML string for the email body.}
 
-\item{group_id}{Optional Domo group ID to include as a recipient.}
+\item{group_id}{Optional Domo group ID recipient. Exactly one of \code{user_id} or \code{group_id} must be provided.}
 
-\item{csv_file}{Optional data frame, CSV text, or CSV file path. The function writes data frames to a temporary CSV file and uploads it as a FILE input.}
-
-\item{csv_file_name}{Optional filename to use for the temporary uploaded CSV file.}
+\item{file_id}{Optional Domo file ID for an attachment. The file must already exist in Domo. Raw CSV content is not supported by this function.}
 
 \item{domo_instance}{Your Domo instance name (e.g. \code{"your-instance"} for
 \code{your-instance.domo.com}).}
@@ -68,9 +65,7 @@ result <- codeEngine_send_email(
   package_version = "1.0.0",
   function_name   = "sendCustomEmail",
   token           = domo_access_token,
-  group_id        = "987654321",
-  csv_file        = mtcars,
-  csv_file_name   = "your_file.csv"
+  file_id         = "1234567890"
 )
 if (!result$sent) message("Failed: ", result$error_message)
 }

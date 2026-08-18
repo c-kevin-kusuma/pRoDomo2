@@ -5,13 +5,15 @@
 #' from your R session. Returns a named list — never throws — so it is safe to
 #' use in a loop.
 #'
-#' @param user_id Numeric Domo user ID of the recipient (e.g. \code{"123456789"}).
+#' @param user_id Optional numeric Domo user ID of the recipient (e.g.
+#'   \code{"123456789"}). Exactly one of \code{user_id} or \code{group_id} must
+#'   be provided.
 #' @param subject Email subject line.
-#' @param html_body Full HTML string for the email body.
-#' @param group_id Optional Domo group ID to include as a recipient.
-#' @param csv_file Optional data frame, CSV text, or CSV file path to upload as
-#'   a FILE input.
-#' @param csv_file_name Optional filename to use for the uploaded CSV file.
+#' @param html_body Optional HTML string for the email body.
+#' @param group_id Optional Domo group ID recipient. Exactly one of
+#'   \code{user_id} or \code{group_id} must be provided.
+#' @param file_id Optional Domo file ID for an attachment. The file must already
+#'   exist in Domo. Raw CSV content is not supported by this function.
 #' @param domo_instance Your Domo instance name (e.g. \code{"your-instance"} for
 #'   \code{your-instance.domo.com}).
 #' @param package_id CodeEngine package ID (UUID string).
@@ -34,48 +36,47 @@
 #'   package_version = "1.0.0",
 #'   function_name   = "sendCustomEmail",
 #'   token           = domo_access_token,
-#'   group_id        = "987654321",
-#'   csv_file        = mtcars,
-#'   csv_file_name   = "your_file.csv"
+#'   file_id         = "1234567890"
 #' )
 #' if (!result$sent) message("Failed: ", result$error_message)
 #' }
 #' @export
 
 codeEngine_send_email <- function(
-  user_id,
+  user_id = NULL,
   subject,
-  html_body,
+  html_body = NULL,
   domo_instance,
   package_id,
   package_version,
   function_name,
   token,
   group_id = NULL,
-  csv_file = NULL,
-  csv_file_name = "attachment.csv",
+  file_id = NULL,
   auth_mode = c("auto", "bearer", "developer")
 ) {
   if (!requireNamespace("httr2", quietly = TRUE)) {
     stop("Package \"httr2\" must be installed to use this function.", call. = FALSE)
   }
-  if (!requireNamespace("curl", quietly = TRUE)) {
-    stop("Package \"curl\" must be installed to use this function.", call. = FALSE)
-  }
 
   auth_mode <- match.arg(auth_mode)
-  user_id   <- trimws(as.character(user_id))
-  group_id  <- if (is.null(group_id)) "" else trimws(as.character(group_id))
-  csv_file_name <- basename(trimws(as.character(csv_file_name)))
-  if (!nzchar(csv_file_name)) csv_file_name <- "attachment.csv"
+  user_id <- if (is.null(user_id) || length(user_id) == 0) "" else trimws(as.character(user_id)[[1]])
+  group_id <- if (is.null(group_id) || length(group_id) == 0) "" else trimws(as.character(group_id)[[1]])
+  file_id <- if (is.null(file_id) || length(file_id) == 0) "" else trimws(as.character(file_id)[[1]])
+  html_body <- if (is.null(html_body) || length(html_body) == 0) "" else as.character(html_body)[[1]]
+  has_user <- nzchar(user_id)
+  has_group <- nzchar(group_id)
 
   tryCatch({
     # --- input validation ---
-    if (!nzchar(user_id))                   stop("Missing user_id.")
-    if (!grepl("^[0-9]+$", user_id))        stop("user_id must be numeric.")
+    if (has_user == has_group) {
+      stop("Provide exactly one recipient target: either user_id or group_id.")
+    }
+    if (has_user && !grepl("^[0-9]+$", user_id)) {
+      stop("user_id must be numeric.")
+    }
     if (!nzchar(as.character(subject)))     stop("Missing subject.")
-    if (!nzchar(as.character(html_body)))   stop("Missing html_body.")
-    if (nzchar(group_id) && !grepl("^[0-9]+$", group_id)) {
+    if (has_group && !grepl("^[0-9]+$", group_id)) {
       stop("group_id must be numeric.")
     }
     # --- normalise token ---
@@ -91,53 +92,17 @@ codeEngine_send_email <- function(
       "/functions/", trimws(function_name)
     )
 
-    # --- build request body ---
-    temp_dir <- NULL
-    csv_path <- NULL
-    if (!is.null(csv_file)) {
-      temp_dir <- tempfile("codeEngine_send_email_")
-      dir.create(temp_dir)
-      csv_path <- file.path(temp_dir, csv_file_name)
-      on.exit(unlink(temp_dir, recursive = TRUE, force = TRUE), add = TRUE)
+    input_variables <- list(
+      userId = if (has_user) user_id else "",
+      subject = as.character(subject),
+      htmlBody = html_body,
+      groupId = if (has_group) group_id else "",
+      fileId = if (nzchar(file_id)) file_id else ""
+    )
 
-      if (is.data.frame(csv_file)) {
-        utils::write.csv(csv_file, file = csv_path, row.names = FALSE, na = "")
-      } else if (is.character(csv_file) && length(csv_file) == 1) {
-        if (file.exists(csv_file)) {
-          if (!file.copy(csv_file, csv_path, overwrite = TRUE)) {
-            stop("Unable to copy csv_file to a temporary upload file.")
-          }
-        } else {
-          writeLines(csv_file, csv_path, useBytes = TRUE)
-        }
-      } else {
-        stop("csv_file must be a data frame, CSV text, or CSV file path.")
-      }
-    }
-
-    if (!is.null(csv_path)) {
-      parts <- list(
-        userId = user_id,
-        subject = as.character(subject),
-        htmlBody = as.character(html_body),
-        csvFile = curl::form_file(csv_path, type = "text/csv")
-      )
-      if (nzchar(group_id)) parts$groupId <- group_id
-
-      req <- do.call(httr2::req_body_multipart, c(list(httr2::request(url)), parts)) |>
-        httr2::req_error(is_error = \(r) FALSE)
-    } else {
-      input_variables <- list(
-        userId   = user_id,
-        subject  = as.character(subject),
-        htmlBody = as.character(html_body)
-      )
-      if (nzchar(group_id)) input_variables$groupId <- group_id
-
-      req <- httr2::request(url) |>
-        httr2::req_body_json(list(inputVariables = input_variables)) |>
-        httr2::req_error(is_error = \(r) FALSE)
-    }
+    req <- httr2::request(url) |>
+      httr2::req_body_json(list(inputVariables = input_variables)) |>
+      httr2::req_error(is_error = \(r) FALSE)
 
     # --- attempt auth, auto falls back on 401 ---
     try_auth <- function(mode) {

@@ -146,7 +146,7 @@ data <- pRoDomo2::pRoActivity(client_id = client_id,
 
 This function uses `domo_access_token` only; it does not use `client_id` or `secret`.
 The email is sent from Domo's notification email context, not directly from your R session.
-If you pass a data frame into `csv_file`, the function writes it to a temporary CSV file and uploads it to Domo as a `FILE` input.
+Attachment support is limited to an existing **Domo file ID**. The function does not upload files or send raw CSV content as attachments.
 
 <br />
 
@@ -164,14 +164,33 @@ Create a new function named `sendCustomEmail` and paste the following JavaScript
 ```javascript
 const codeengine = require('codeengine');
 
-async function sendCustomEmail(userId, subject, htmlBody, groupId, csvFile) {
+/**
+ * Inputs:
+ * - userId    (TEXT, nullable)
+ * - subject   (TEXT, required)
+ * - htmlBody  (TEXT, nullable)
+ * - groupId   (TEXT, nullable)
+ * - fileId    (TEXT, nullable)   // existing file ID already stored in Domo
+ *
+ * Notes:
+ * - Provide exactly one recipient target: userId or groupId.
+ * - dataFileAttachments expects existing Domo file IDs.
+ * - This function does not upload files.
+ */
+async function sendCustomEmail(userId, subject, htmlBody, groupId, fileId) {
   try {
+    const hasUser = !!(userId && String(userId).trim());
+    const hasGroup = !!(groupId && String(groupId).trim());
+    if (hasUser === hasGroup) {
+      return { success: false, error: 'Provide exactly one recipient target: userId or groupId.' };
+    }
+
     const parameters = {
       subject: subject,
-      text: htmlBody,
-      recipientsUserIds: [Number(userId)],
-      recipientsGroupIds: groupId ? [Number(groupId)] : [],
-      dataFileAttachments: csvFile ? [csvFile] : [],
+      text: htmlBody ? String(htmlBody) : '',
+      recipientsUserIds: hasUser ? [Number(userId)] : [],
+      recipientsGroupIds: hasGroup ? [Number(groupId)] : [],
+      dataFileAttachments: fileId ? [fileId] : [],
       populateReplyToHeaderWithRecipients: false
     };
 
@@ -191,15 +210,15 @@ async function sendCustomEmail(userId, subject, htmlBody, groupId, csvFile) {
 ```
 
 **Step 4 — Configure inputs**  
-Add five input parameters. The first three are required; the last two are optional and may be left blank:
+Add five input parameters. In Domo, set `userId`, `htmlBody`, `groupId`, and `fileId` to **nullable**. Exactly one of `userId` or `groupId` must be provided per call.
 
 | Name | Type |
 |:-----|:-----|
-| `userId` | String |
+| `userId` | String (nullable) |
 | `subject` | String |
-| `htmlBody` | String |
-| `groupId` | String (optional) |
-| `csvFile` | FILE (optional, receives the uploaded CSV) |
+| `htmlBody` | String (nullable) |
+| `groupId` | String (nullable) |
+| `fileId` | String (nullable, existing Domo file ID) |
 
 **Step 5 — Configure output**  
 Add an output named `result` of type **Object** with two child properties:
@@ -226,9 +245,7 @@ result <- pRoDomo2::codeEngine_send_email(
   package_version = "1.0.0",
   function_name   = "sendCustomEmail",
   token           = domo_access_token,
-  group_id        = "987654321",
-  csv_file        = mtcars,
-  csv_file_name   = "your_file.csv"
+  file_id         = "1234567890"
 )
 
 # Check result
