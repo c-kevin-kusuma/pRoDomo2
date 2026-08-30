@@ -6,9 +6,13 @@
 #' @param collection_id The AppDB collection ID.
 #' @param developer_token A valid Domo Developer Token.
 #' @param instance Domo instance URL. For example:
-#'   \code{"https://company.domo.com"}.
+#'   \code{"https://company.domo.com"}. A bare hostname (for example
+#'   \code{"company.domo.com"}) is also accepted; \code{https://} is
+#'   added automatically when no scheme is present.
 #' @param batch_limit Number of records to retrieve per API call.
-#'   Defaults to \code{10000}.
+#'   Defaults to \code{10000}, which is Domo's documented maximum
+#'   page size for this endpoint. Values above \code{10000} are
+#'   capped to \code{10000} with a warning.
 #'
 #' @examples
 #' appdb_doc_get(
@@ -42,10 +46,19 @@ appdb_doc_get <- function(
          call. = FALSE)
   }
 
+  if (batch_limit > 10000) {
+    warning(
+      "batch_limit capped at 10000 (Domo's documented maximum page size ",
+      "for this endpoint).",
+      call. = FALSE
+    )
+    batch_limit <- 10000
+  }
+
   offset <- 0
   all_documents <- list()
 
-  instance <- sub("/+$", "", instance)
+  instance <- .normalize_domo_instance(instance)
   url <- paste0(
     instance,
     "/api/datastores/v1/collections/",
@@ -68,6 +81,8 @@ appdb_doc_get <- function(
       `X-DOMO-Developer-Token` = developer_token,
       Accept = "application/json"
     )
+    request <- httr2::req_retry(request, max_tries = 3)
+    request <- .appdb_req_error(request)
 
     response <- httr2::req_perform(request)
 

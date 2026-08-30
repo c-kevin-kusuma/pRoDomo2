@@ -19,6 +19,14 @@ appdb_row_to_document <- function(
   row_number
 ) {
 
+  if (row_number < 1 || row_number > nrow(data)) {
+    stop(
+      "row_number (", row_number, ") is out of range for `data` (",
+      nrow(data), " row(s)).",
+      call. = FALSE
+    )
+  }
+
   list(
     content = as.list(
       data[row_number, , drop = FALSE]

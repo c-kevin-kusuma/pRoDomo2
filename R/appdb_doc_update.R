@@ -6,7 +6,9 @@
 #' @param appdb_document_id The document ID to update.
 #' @param developer_token A valid Domo Developer Token.
 #' @param instance Domo instance URL. For example:
-#'   \code{"https://company.domo.com"}.
+#'   \code{"https://company.domo.com"}. A bare hostname is also
+#'   accepted; \code{https://} is added automatically when no scheme
+#'   is present.
 #' @param data A document payload, typically generated using
 #'   \code{appdb_row_to_document()}.
 #'
@@ -45,7 +47,7 @@ appdb_doc_update <- function(
     )
   }
 
-  instance <- sub("/+$", "", instance)
+  instance <- .normalize_domo_instance(instance)
   update_url <- paste0(
     instance,
     "/api/datastores/v1/collections/",
@@ -66,6 +68,11 @@ appdb_doc_update <- function(
     data,
     auto_unbox = TRUE
   )
+  # PUT is idempotent (replacing the same document with the same content
+  # has no additional side effect), so retrying on a transient failure is
+  # safe here.
+  request <- httr2::req_retry(request, max_tries = 3)
+  request <- .appdb_req_error(request)
 
   response <- httr2::req_perform(request)
 

@@ -6,7 +6,9 @@
 #' @param appdb_document_id The document ID to delete.
 #' @param developer_token A valid Domo Developer Token.
 #' @param instance Domo instance URL. For example:
-#'   \code{"https://company.domo.com"}.
+#'   \code{"https://company.domo.com"}. A bare hostname is also
+#'   accepted; \code{https://} is added automatically when no scheme
+#'   is present.
 #'
 #' @return The API response object returned by
 #'   \code{httr2::req_perform()}.
@@ -36,7 +38,7 @@ appdb_doc_delete <- function(
     )
   }
 
-  instance <- sub("/+$", "", instance)
+  instance <- .normalize_domo_instance(instance)
   delete_url <- paste0(
     instance,
     "/api/datastores/v1/collections/",
@@ -52,6 +54,11 @@ appdb_doc_delete <- function(
     `X-DOMO-Developer-Token` = developer_token,
     Accept = "application/json"
   )
+  # DELETE is idempotent (deleting an already-deleted document is a no-op
+  # from the caller's perspective), so retrying on a transient failure is
+  # safe here.
+  request <- httr2::req_retry(request, max_tries = 3)
+  request <- .appdb_req_error(request)
 
   response <- httr2::req_perform(request)
 
