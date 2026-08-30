@@ -20,16 +20,34 @@ stream_execution_commit <- function(client_id, secret, stream_id, execution_id) 
   if (!requireNamespace("httr", quietly = TRUE)) {stop("Package \"httr\" must be installed to use this function.", call. = FALSE)}
 
   # Access
-  access <- httr::content(
-    httr::GET(url = 'https://api.domo.com/oauth/token',
+  access_response <- httr::GET(url = 'https://api.domo.com/oauth/token',
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
-              query = list(grant_type='client_credentials')))
+              query = list(grant_type='client_credentials'))
 
-  data <- httr::content(
-    httr::PUT(url = paste0("https://api.domo.com/v1/streams/", stream_id,'/executions/',execution_id,'/commit'),
+  if (httr::status_code(access_response) >= 400) {
+    stop(
+      "Domo OAuth token request failed (HTTP ", httr::status_code(access_response), "). Response: ",
+      httr::content(access_response, as = "text", encoding = "UTF-8"),
+      call. = FALSE
+    )
+  }
+
+  access <- httr::content(access_response)
+
+  response <- httr::PUT(url = paste0("https://api.domo.com/v1/streams/", stream_id,'/executions/',execution_id,'/commit'),
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
               httr::content_type("application/json"),
-              httr::accept("application/json")))
+              httr::accept("application/json"))
+
+  if (httr::status_code(response) >= 400) {
+    stop(
+      "Domo stream execution commit failed (HTTP ", httr::status_code(response), ") for stream_id=", stream_id,
+      ", execution_id=", execution_id, ". Response: ", httr::content(response, as = "text", encoding = "UTF-8"),
+      call. = FALSE
+    )
+  }
+
+  data <- httr::content(response)
 
   return(data)
 }

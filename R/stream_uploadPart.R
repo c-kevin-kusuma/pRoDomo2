@@ -24,18 +24,36 @@ stream_uploadPart <- function(client_id, secret, execution_id, part_id, stream_i
   if (!requireNamespace("httr", quietly = TRUE)) {stop("Package \"httr\" must be installed to use this function.", call. = FALSE)}
 
   # Access
-  access <- httr::content(
-    httr::GET(url = 'https://api.domo.com/oauth/token',
+  access_response <- httr::GET(url = 'https://api.domo.com/oauth/token',
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
-              query = list(grant_type='client_credentials')))
+              query = list(grant_type='client_credentials'))
 
-  data <- httr::content(
-    httr::PUT(url = paste0('https://api.domo.com/v1/streams/', stream_id,'/executions/', execution_id,'/part/', part_id),
+  if (httr::status_code(access_response) >= 400) {
+    stop(
+      "Domo OAuth token request failed (HTTP ", httr::status_code(access_response), "). Response: ",
+      httr::content(access_response, as = "text", encoding = "UTF-8"),
+      call. = FALSE
+    )
+  }
+
+  access <- httr::content(access_response)
+
+  response <- httr::PUT(url = paste0('https://api.domo.com/v1/streams/', stream_id,'/executions/', execution_id,'/part/', part_id),
                body = body,
                config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                httr::content_type("text/csv"),
                httr::accept("application/json"),
-               encode = 'gzip'))
+               encode = 'gzip')
+
+  if (httr::status_code(response) >= 400) {
+    stop(
+      "Domo stream part upload failed (HTTP ", httr::status_code(response), ") for stream_id=", stream_id,
+      ", execution_id=", execution_id, ", part_id=", part_id, ". Response: ", httr::content(response, as = "text", encoding = "UTF-8"),
+      call. = FALSE
+    )
+  }
+
+  data <- httr::content(response)
 
   return(data)
 }
