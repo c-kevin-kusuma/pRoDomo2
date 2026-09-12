@@ -78,8 +78,17 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
                    httr:: accept("application/json"),
                    encode = 'json'))
 
-      data <- rlist::list.stack(content$rows)
-      colnames(data) <- content$columns
+      # A query that legitimately matches zero rows comes back with an empty content$rows -
+      # list.stack() on that produces a 0-column frame, and colnames<- then fails because
+      # content$columns still has the query's column count. Build the empty frame with the
+      # right shape up front instead of crashing on a "no data" result.
+      if (is.null(content$rows) || length(content$rows) == 0) {
+        data <- as.data.frame(matrix(nrow = 0, ncol = length(content$columns)), stringsAsFactors = FALSE)
+        names(data) <- content$columns
+      } else {
+        data <- rlist::list.stack(content$rows)
+        colnames(data) <- content$columns
+      }
       data <- dplyr::tibble(data)
     }
 
@@ -99,8 +108,14 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
                  httr:: accept("application/json"),
                  encode = 'json'))
 
-    data <- rlist::list.stack(content$rows)
-    colnames(data) <- content$columns
+    # See the parallel branch above for why the empty-result case needs its own path.
+    if (is.null(content$rows) || length(content$rows) == 0) {
+      data <- as.data.frame(matrix(nrow = 0, ncol = length(content$columns)), stringsAsFactors = FALSE)
+      names(data) <- content$columns
+    } else {
+      data <- rlist::list.stack(content$rows)
+      colnames(data) <- content$columns
+    }
   }
 
   return(data)
