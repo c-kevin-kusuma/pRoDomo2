@@ -1,8 +1,14 @@
 #' Create AppDB Collection
 #'
-#' Creates a new AppDB collection.
+#' Creates a new AppDB collection inside a datastore.
 #'
 #' @param name Name of the collection to create.
+#' @param datastore_id The ID of the datastore this collection will
+#'   live in. Required by Domo's API as of Sep 2026. When \code{NULL}
+#'   (the default), a new datastore named after \code{name} is
+#'   created via \code{appdb_datastore_create()} and used. Pass an
+#'   existing ID (e.g. from \code{appdb_datastore_get_all()}) to put
+#'   this collection in a datastore you already have instead.
 #' @param developer_token A valid Domo Developer Token.
 #' @param instance Domo instance URL. For example:
 #'   \code{"https://company.domo.com"}. A bare hostname is also
@@ -27,6 +33,7 @@
 #'   available at \code{httr2::resp_body_json(response)$id}.
 #'
 #' @examples
+#' # Auto-creates a new datastore named "A New Collection":
 #' response <- appdb_collection_create(
 #'   name = "A New Collection",
 #'   developer_token = developer_token,
@@ -35,12 +42,21 @@
 #'   sync_enabled = TRUE
 #' )
 #'
+#' # Reuses an existing datastore:
+#' response <- appdb_collection_create(
+#'   name = "Another Collection",
+#'   datastore_id = "12345678-1234-1234-1234-123456789012",
+#'   developer_token = developer_token,
+#'   instance = "https://company.domo.com"
+#' )
+#'
 #' @export
 
 appdb_collection_create <- function(
   name,
   developer_token,
   instance,
+  datastore_id = NULL,
   schema = NULL,
   sync_enabled = FALSE
 ) {
@@ -55,6 +71,15 @@ appdb_collection_create <- function(
 
   if (sync_enabled && is.null(schema)) {
     stop("`schema` is required when `sync_enabled = TRUE`.", call. = FALSE)
+  }
+
+  if (is.null(datastore_id)) {
+    datastore_response <- appdb_datastore_create(
+      name = name,
+      developer_token = developer_token,
+      instance = instance
+    )
+    datastore_id <- httr2::resp_body_json(datastore_response)$id
   }
 
   body <- list(
@@ -77,6 +102,7 @@ appdb_collection_create <- function(
   url <- paste0(instance, "/api/datastores/v1/collections")
 
   request <- httr2::request(url)
+  request <- httr2::req_url_query(request, datastoreId = datastore_id)
   request <- httr2::req_method(request, "POST")
   request <- httr2::req_headers(
     request,
