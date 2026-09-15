@@ -9,7 +9,7 @@
 #' @export
 
 
-page_get_all <- function(client_id, secret, limit, offset) {
+page_get_all <- function(client_id, secret, limit = 50, offset = 0) {
 
   # Check Required Packages
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}

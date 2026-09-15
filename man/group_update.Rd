@@ -4,7 +4,7 @@
 \alias{group_update}
 \title{Update a group}
 \usage{
-group_update(client_id, secret, group_id, name, active = TRUE, default = FALSE)
+group_update(client_id, secret, group_id, name, active = NULL, default = NULL)
 }
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}

@@ -33,7 +33,6 @@ plt_list_create <- function(client_id, secret, project_id, body) {
                httr::accept("application/json"),
                encode = 'json'))
 
-  cat(data$id)
   return(data)
 }
 

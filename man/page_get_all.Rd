@@ -4,7 +4,7 @@
 \alias{page_get_all}
 \title{List pages}
 \usage{
-page_get_all(client_id, secret, limit, offset)
+page_get_all(client_id, secret, limit = 50, offset = 0)
 }
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}

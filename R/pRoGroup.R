@@ -33,10 +33,10 @@ pRoGroup <- function(client_id, secret, data_table) {
   cur_members <- dplyr::tibble(group_id = cur_members$group_id, user_id = unlist(cur_members$user_id))
   cor_members <- data_table %>% dplyr::filter(group_id == group_list$group_id[x])
 
-  addList <- anti_join(cor_members, cur_members, by = join_by(group_id, user_id))
+  addList <- dplyr::anti_join(cor_members, cur_members, by = dplyr::join_by(group_id, user_id))
   for (i in 1:nrow(addList)) {group_user_add(client_id = client_id, secret = secret, group_id = addList$group_id[i], user_id = addList$user_id[i])}
 
-  deleteList <- anti_join(cur_members, cor_members, by = join_by(group_id, user_id))
+  deleteList <- dplyr::anti_join(cur_members, cor_members, by = dplyr::join_by(group_id, user_id))
   for (i in 1:nrow(deleteList)) {group_user_remove(client_id = client_id, secret = secret, group_id = deleteList$group_id[i], user_id = deleteList$user_id[i])}
 
   }

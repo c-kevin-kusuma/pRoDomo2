@@ -15,7 +15,7 @@
 #' @export
 
 
-group_update <- function(client_id, secret, group_id, name, active = TRUE, default = FALSE) {
+group_update <- function(client_id, secret, group_id, name, active = NULL, default = NULL) {
 
   # Check Required Packages
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}
@@ -27,9 +27,14 @@ group_update <- function(client_id, secret, group_id, name, active = TRUE, defau
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
               query = list(grant_type='client_credentials')))
 
+  # Per Domo's docs, any parameter left out of the request leaves that
+  # attribute unchanged, so NULL args must be omitted from the body rather
+  # than defaulted to TRUE/FALSE, which would silently overwrite them.
+  body <- Filter(Negate(is.null), list(name = name, active = active, default = default))
+
   data <- httr::content(
       httr::PUT(url = paste0('https://api.domo.com/v1/groups/', group_id),
-                body = list(name = name, active = active, default = default),
+                body = body,
                 config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                 httr::content_type("application/json"),
                 encode = 'json'))

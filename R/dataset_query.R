@@ -29,11 +29,20 @@ dataset_query <- function(client_id, secret, dataset_id, sql_query = 'select * f
   #Body
   content <- httr::content(
     httr::POST(url = paste0('https://api.domo.com/v1/datasets/query/execute/', dataset_id),
-               body = paste0('{"sql": ','"',sql_query,'"}'),
+               body = list(sql = sql_query),
                config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                httr::content_type("application/json"),
                httr:: accept("application/json"),
                encode = 'json'))
+
+  if (length(content$rows) == 0) {
+    return(
+      stats::setNames(
+        as.data.frame(matrix(nrow = 0, ncol = length(content$columns))),
+        content$columns
+      )
+    )
+  }
 
   data <- rlist::list.stack(content$rows)
   colnames(data) <- content$columns

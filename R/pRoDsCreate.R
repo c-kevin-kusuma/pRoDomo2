@@ -27,6 +27,14 @@ pRoDsCreate <- function(client_id, secret, dataset, dataset_name, dataset_descri
   if (!requireNamespace("readr", quietly = TRUE)) {stop("Package \"readr\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("lobstr", quietly = TRUE)) {stop("Package \"lobstr\" must be installed to use this function.", call. = FALSE)}
 
+  if (nrow(dataset) == 0) {stop("`dataset` has 0 rows; nothing to upload.", call. = FALSE)}
+
+  # `parallel`/`n_core` are accepted for API compatibility with pRoDsGet(),
+  # but the part upload below is not currently parallelized.
+  if (isTRUE(parallel)) {
+    warning("parallel = TRUE is not yet implemented in pRoDsCreate(); uploading sequentially.", call. = FALSE)
+  }
+
   # Functions
   estimate_rows <- function (data) {
     sz <- as.numeric(lobstr::obj_size(data)) / 1000

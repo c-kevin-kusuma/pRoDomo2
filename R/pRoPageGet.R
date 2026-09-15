@@ -37,6 +37,13 @@ pRoPageGet <- function(client_id, secret, data_frame = TRUE) {
   }
 
 
+  # An instance with zero pages leaves `data` empty; 1:length(data) would be
+  # 1:0 and crash on data[[1]] with "subscript out of bounds" below.
+  if(length(data) == 0){
+    if(data_frame){return(dplyr::tibble())}
+    return(list())
+  }
+
   x <- 0; data_1 <- list()
   for(i in 1:length(data)){
     y <- data[[i]]

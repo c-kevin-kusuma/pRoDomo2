@@ -18,6 +18,7 @@ dataset_import <- function(client_id, secret, dataset_id, data_table) {
   # Check Required Packages
   if (!requireNamespace("RCurl", quietly = TRUE)) {stop("Package \"RCurl\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("httr", quietly = TRUE)) {stop("Package \"httr\" must be installed to use this function.", call. = FALSE)}
+  if (!requireNamespace("readr", quietly = TRUE)) {stop("Package \"readr\" must be installed to use this function.", call. = FALSE)}
 
   # Access
   access <- httr::content(
@@ -25,10 +26,15 @@ dataset_import <- function(client_id, secret, dataset_id, data_table) {
               config = httr::add_headers(c(Authorization=paste('Basic',RCurl::base64(paste(client_id,secret,sep=':'))[[1]], sep=' '))),
               query = list(grant_type='client_credentials')))
 
+  # readr::format_csv() quotes fields containing commas/quotes/newlines and
+  # writes NA as an empty field, unlike a naive apply(..., paste, collapse=',')
+  # row-join, which corrupts data with embedded commas and imports NA as the
+  # literal text "NA".
+  csv_body <- readr::format_csv(data_table, col_names = FALSE, na = "")
 
   data <- httr::content(
     httr::PUT(url = paste0('https://api.domo.com/v1/datasets/', dataset_id, '/data'),
-               body = apply(data_table, 1, paste, collapse = ','),
+               body = csv_body,
                config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                httr::content_type("text/csv"),
                httr::accept("application/json"),

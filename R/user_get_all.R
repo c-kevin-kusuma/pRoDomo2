@@ -34,6 +34,7 @@ user_get_all <- function(client_id, secret) {
                 config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))))))
 
     nr <- nrow(user)
+    if('status' %in% colnames(user)){break}
     if(nr>0) {a[[i+1]] <- user}
     i <- i+1
     offset <- offset+limit

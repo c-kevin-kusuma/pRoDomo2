@@ -29,7 +29,7 @@ stream_execution_get_all <- function(client_id, secret, stream_id, limit = 500, 
 
   data <- httr::content(
     httr::GET(url = paste0("https://api.domo.com/v1/streams/", stream_id,'/executions'),
-              body = list(limit = limit, offset = offset),
+              query = list(limit = limit, offset = offset),
               config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
               httr::content_type("application/octet-stream"),
               httr::accept("application/json")))
