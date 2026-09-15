@@ -18,6 +18,18 @@ appdb_row_to_document(
 Converts a single row from a data frame into the
 AppDB document structure required by the Domo AppDB API.
 }
+\details{
+If \code{data} has a list-column (e.g. holding a multi-select
+field's values as a character vector per row), \code{as.list()} on
+a single-row slice wraps that value in an extra layer of
+\code{list()}. Left as-is, \code{httr2::req_body_json(auto_unbox =
+TRUE)} would serialize it as a doubly-nested array (e.g.
+\code{[["a","b"]]}) instead of the flat array the AppDB API expects
+(\code{["a","b"]}). Each field is unwrapped one level before the
+document is returned so list-column values serialize as a flat
+array (or a bare scalar, via \code{auto_unbox}, when there's only
+one value).
+}
 \value{
 A list formatted for use with the AppDB API.
 }
@@ -29,4 +41,3 @@ new_data <- appdb_row_to_document(
 
 str(new_data)
 }
-`

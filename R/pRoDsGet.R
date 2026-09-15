@@ -47,6 +47,12 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
   # Parallel is TRUE
   if(parallel == TRUE){
 
+    # Check For Parallelism (must run before n_core is used below, or a
+    # missing n_core fails with a cryptic "argument of length 0" instead
+    # of this message)
+    if(is.null(n_core)) {stop('Parallel == TRUE needs to be accompanied by a value (>1) in n_core parameter.', call. = FALSE)}
+    if(parallel::detectCores() < n_core) {stop(paste0("You only have ", parallel::detectCores(), " cores, please reduce the value of the n_core."), call. = FALSE)}
+
     # Create Iterations
     a <- cur$rows
     b <- ceiling(a/n_core)
@@ -59,11 +65,6 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
       skip = end}
     iteration <- dplyr::bind_rows(iteration) %>% dplyr::mutate(rows = end - skip)
 
-
-    # Check For Parallelism
-    if(is.null(n_core)) {stop('Parallel == TRUE needs to be accompanied by a value (>1) in n_core parameter.', call. = FALSE)}
-    if(parallel::detectCores() < n_core) {stop(paste0("You only have ", parallel::detectCores(), " cores, please reduce the value of the n_core."), call. = FALSE)}
-
     # Create clusters
     my.cluster <- parallel::makeCluster(n_core, type = "PSOCK")
     doParallel::registerDoParallel(cl = my.cluster)
@@ -72,7 +73,7 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
       #Body
       content <- httr::content(
         httr::POST(url = paste0('https://api.domo.com/v1/datasets/query/execute/', dataset_id),
-                   body = paste0('{"sql": ','"',sql_query,' limit ', iteration$skip[x],',',iteration$rows[x],'"}'),
+                   body = list(sql = paste0(sql_query, ' limit ', iteration$skip[x], ',', iteration$rows[x])),
                    config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                    httr::content_type("application/json"),
                    httr:: accept("application/json"),
@@ -102,7 +103,7 @@ pRoDsGet <- function(client_id, secret, dataset_id, sql_query = NULL, parallel =
     #Body
     content <- httr::content(
       httr::POST(url = paste0('https://api.domo.com/v1/datasets/query/execute/', dataset_id),
-                 body = paste0('{"sql": ','"',sql_query,'"}'),
+                 body = list(sql = sql_query),
                  config = httr::add_headers(c(Authorization=paste('bearer',access$access_token,sep=' '))),
                  httr::content_type("application/json"),
                  httr:: accept("application/json"),

@@ -38,8 +38,9 @@ group_user_get <- function(client_id, secret, group_id) {
 
     nr <- length(d)
     i <- i+1
+    if('status' %in% names(d)){break}
+    if(nr>0) {data[[i]] <- dplyr::tibble(group_id = group_id, user_id = d)}
     offset <- offset+limit
-    data[[i]] <- dplyr::tibble(group_id = group_id, user_id = d)
   }
 
   data <- dplyr::bind_rows(data)

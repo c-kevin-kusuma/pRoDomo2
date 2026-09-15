@@ -22,6 +22,14 @@ pRoDsUpdate <- function(client_id, secret, dataset_id, dataset, parallel = FALSE
   if (!requireNamespace("readr", quietly = TRUE)) {stop("Package \"readr\" must be installed to use this function.", call. = FALSE)}
   if (!requireNamespace("lobstr", quietly = TRUE)) {stop("Package \"lobstr\" must be installed to use this function.", call. = FALSE)}
 
+  if (nrow(dataset) == 0) {stop("`dataset` has 0 rows; nothing to upload.", call. = FALSE)}
+
+  # `parallel`/`n_core` are accepted for API compatibility with pRoDsGet(),
+  # but the part upload below is not currently parallelized.
+  if (isTRUE(parallel)) {
+    warning("parallel = TRUE is not yet implemented in pRoDsUpdate(); uploading sequentially.", call. = FALSE)
+  }
+
   # Check dataset_id
   stream.searched <- stream_search(client_id = client_id, secret = secret, dataset_id = dataset_id)
   if (length(stream.searched) == 0) {stop("dataset_id does not exist!", call. = FALSE)}

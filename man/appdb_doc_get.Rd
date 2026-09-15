@@ -31,6 +31,17 @@ documents exceeds the specified batch limit.
 Each document's contents are flattened into a data frame row and
 the AppDB document ID is preserved in the
 \code{appdb_document_id} column.
+
+Multi-select fields (e.g. a \code{stakeholders} or
+\code{department_supported} field) come back from the AppDB API as
+a JSON array on documents where one or more values were picked, but
+as a single scalar or an absent field on documents where they
+weren't. Before binding documents into a single data frame, each
+field is collapsed to one scalar per record: empty/missing values
+become \code{NA}, and multi-valued fields are joined with
+\code{"; "}. This keeps every record the same shape so documents
+from the same collection can always be combined, regardless of
+which fields happen to be array-valued on a given document.
 }
 \value{
 A data frame containing one row per AppDB document.

@@ -4,7 +4,7 @@
 \alias{plt_attachment_delete}
 \title{Delete an attachment}
 \usage{
-plt_attachment_delete(client_id, secret, project_id, task_id, attachment_id)
+plt_attachment_delete(client_id, secret, project_id, list_id, task_id, attachment_id)
 }
 \arguments{
 \item{client_id}{A client_id that can be created on the \url{developer.domo.com} page.}
@@ -13,11 +13,11 @@ plt_attachment_delete(client_id, secret, project_id, task_id, attachment_id)
 
 \item{project_id}{The unique ID of the project.}
 
+\item{list_id}{The unique ID of the list.}
+
 \item{task_id}{The unique ID of the task.}
 
 \item{attachment_id}{The unique ID of the attachment.}
-
-\item{list_id}{The unique ID of the list.}
 }
 \description{
 \strong{This is destructive and cannot be reversed.} Permanently deletes an attachment from your task.

@@ -34,8 +34,9 @@ group_get_all <- function(client_id, secret) {
 
     nr <- nrow(d)
     i <- i+1
+    if('status' %in% colnames(d)){break}
+    if(nr>0) {data[[i]] <- d}
     offset <- offset+limit
-    data[[i]] <- d
   }
 
   data <- dplyr::bind_rows(data)

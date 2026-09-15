@@ -14,6 +14,18 @@
 #'   page size for this endpoint. Values above \code{10000} are
 #'   capped to \code{10000} with a warning.
 #'
+#' @details
+#' Multi-select fields (e.g. a \code{stakeholders} or
+#' \code{department_supported} field) come back from the AppDB API as
+#' a JSON array on documents where one or more values were picked, but
+#' as a single scalar or an absent field on documents where they
+#' weren't. Before binding documents into a single data frame, each
+#' field is collapsed to one scalar per record: empty/missing values
+#' become \code{NA}, and multi-valued fields are joined with
+#' \code{"; "}. This keeps every record the same shape so documents
+#' from the same collection can always be combined, regardless of
+#' which fields happen to be array-valued on a given document.
+#'
 #' @examples
 #' appdb_doc_get(
 #'   collection_id = "12345678-1234-1234-1234-123456789012",
@@ -110,7 +122,7 @@ appdb_doc_get <- function(
       all_documents,
       function(x) {
 
-        record <- x$content
+        record <- .appdb_normalize_record(x$content)
         record$appdb_document_id <- x$id
 
         record

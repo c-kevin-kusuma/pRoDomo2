@@ -35,7 +35,17 @@ pRoPdpGet <- function(client_id, secret, dataset_id, data_frame = FALSE) {
 
   # Function
   extractPdp <- function(x) {
-    if(length(x)==0) {break}
+    if(length(x)==0) {
+      return(dplyr::tibble(
+        `Policy ID` = character(),
+        `Policy Type` = character(),
+        `Policy Name` = character(),
+        `Policy Column` = character(),
+        `Policy Value` = character(),
+        `User ID` = character(),
+        `Group ID` = character()
+      ))
+    }
     for (i in 1:length(x)) {
       if(length(x[[i]]$filters) == 0){filters <- dplyr::tibble(column = '', values = '')} else{filters <- x[[i]]$filters %>% rlist::list.stack() %>% dplyr::select(column, values) %>% dplyr::mutate(values = as.character(values)) %>% dplyr::arrange(values)}
       if(length(x[[i]]$users) == 0){users <- dplyr::tibble(users = '')} else{users <- dplyr::tibble(users = x[[i]]$users) %>% dplyr::mutate(users = as.character(users)) %>% dplyr::arrange(users)} # Extract Users
