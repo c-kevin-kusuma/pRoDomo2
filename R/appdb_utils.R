@@ -39,6 +39,13 @@
   })
 }
 
+# Coerce a possibly-NULL/absent JSON field to a scalar character value,
+# so a missing field becomes NA instead of dropping out of the row
+# entirely (which would misalign columns once bound with other records).
+.appdb_null_to_na <- function(x) {
+  if (is.null(x)) NA_character_ else as.character(x)
+}
+
 # Attach Domo's own error message (when present) to httr2 HTTP-error
 # conditions, so callers see e.g. "Collection not found" instead of a
 # generic "HTTP 404" message.
