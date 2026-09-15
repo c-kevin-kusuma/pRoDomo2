@@ -4,12 +4,7 @@
 \alias{appdb_doc_bulk_update}
 \title{Bulk Upsert AppDB Documents}
 \usage{
-appdb_doc_bulk_update(
-  collection_id,
-  developer_token,
-  instance,
-  data
-)
+appdb_doc_bulk_update(collection_id, developer_token, instance, data)
 }
 \arguments{
 \item{collection_id}{The AppDB collection ID.}
@@ -29,8 +24,13 @@ Payloads without an \code{id} field are created as new documents.}
 }
 \value{
 The API response object returned by
-\code{httr2::req_perform()}. On success, the response body is
-\code{list(Updated = <n>, Created = <n>)}.
+  \code{httr2::req_perform()}. On success, the response body is
+  \code{list(Updated = <n>, Created = <n>)}. Domo mislabels this
+  response as \code{Content-Type: text/plain} even though the body
+  is JSON, so parse it with
+  \code{httr2::resp_body_json(response, check_type = FALSE)} rather
+  than the default \code{resp_body_json(response)}, which errors on
+  the content-type mismatch.
 }
 \description{
 Creates and/or updates multiple AppDB documents in a single API

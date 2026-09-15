@@ -4,12 +4,7 @@
 \alias{appdb_doc_bulk_create}
 \title{Bulk Create AppDB Documents}
 \usage{
-appdb_doc_bulk_create(
-  collection_id,
-  developer_token,
-  instance,
-  data
-)
+appdb_doc_bulk_create(collection_id, developer_token, instance, data)
 }
 \arguments{
 \item{collection_id}{The AppDB collection ID.}
@@ -27,9 +22,14 @@ using \code{appdb_row_to_document()}. For example,
 }
 \value{
 The API response object returned by
-\code{httr2::req_perform()}. On success, the response body is
-\code{list(Created = <n>)}; it does not include the generated
-document IDs.
+  \code{httr2::req_perform()}. On success, the response body is
+  \code{list(Created = <n>)}; it does not include the generated
+  document IDs. Domo mislabels this response as
+  \code{Content-Type: text/plain} even though the body is JSON, so
+  parse it with
+  \code{httr2::resp_body_json(response, check_type = FALSE)} rather
+  than the default \code{resp_body_json(response)}, which errors on
+  the content-type mismatch.
 }
 \description{
 Creates multiple AppDB documents in a single API call.

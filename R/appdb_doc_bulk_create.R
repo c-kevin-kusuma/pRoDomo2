@@ -15,7 +15,12 @@
 #' @return The API response object returned by
 #'   \code{httr2::req_perform()}. On success, the response body is
 #'   \code{list(Created = <n>)}; it does not include the generated
-#'   document IDs.
+#'   document IDs. Domo mislabels this response as
+#'   \code{Content-Type: text/plain} even though the body is JSON, so
+#'   parse it with
+#'   \code{httr2::resp_body_json(response, check_type = FALSE)} rather
+#'   than the default \code{resp_body_json(response)}, which errors on
+#'   the content-type mismatch.
 #'
 #' @examples
 #' new_data <- purrr::map(
