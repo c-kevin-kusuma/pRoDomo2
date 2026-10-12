@@ -269,11 +269,56 @@ The function returns a named list and never throws, making it safe to use inside
 <br />
 <br />
 
+## Run a Code Engine Function
+
+`codeengine_run()` runs any function of a Code Engine package version and returns the execution id, the status and whatever the function returned. It uses a Developer Token.
+
+```r
+run <- codeengine_run(
+  package_id = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  version = '1.0.0',
+  function_name = 'myFunction',
+  input_variables = list(name = 'value'),
+  developer_token = Sys.getenv('DOMO_TOKEN'),
+  instance = 'your-instance.domo.com'
+)
+run$status
+run$result
+```
+
+<br />
+<br />
+
 ## Available Functions
 1. Activity Log
    * `pRoActivity()` Retrieve Activity Log Entries (Simplified)
    * `activity_log()` Retrieve Activity Log Entries
-2. Dataset
+2. AppDB
+   * `appdb_collection_create()` Create AppDB Collection
+   * `appdb_collection_delete()` Delete AppDB Collection
+   * `appdb_collection_get_all()` List AppDB Collections
+   * `appdb_collection_update()` Update AppDB Collection
+   * `appdb_datastore_create()` Create AppDB Datastore
+   * `appdb_datastore_get_all()` List AppDB Datastores
+   * `appdb_doc_bulk_create()` Bulk Create AppDB Documents
+   * `appdb_doc_bulk_delete()` Bulk Delete AppDB Documents
+   * `appdb_doc_bulk_update()` Bulk Upsert AppDB Documents
+   * `appdb_doc_create()` Create AppDB Document
+   * `appdb_doc_delete()` Delete AppDB Document
+   * `appdb_doc_get()` Get AppDB Documents
+   * `appdb_doc_query()` Query AppDB Documents
+   * `appdb_doc_update()` Update AppDB Document
+   * `appdb_row_to_document()` Convert a Data Frame Row to an AppDB Document
+   * `appdb_rows_to_documents()` Convert Data Frame Rows to AppDB Documents
+3. Code Engine
+   * `codeengine_run()` Run a Code Engine Function
+   * `codeEngine_send_email()` Send an Email via a Code Engine Function
+4. Dataflow
+   * `dataflow_get()` Retrieve a Dataflow Definition
+   * `dataflow_executions()` List a Dataflow's Recent Executions
+   * `dataflow_run()` Start a Dataflow Run
+   * `dataflow_wait()` Wait for a Dataflow Execution to Finish
+5. Dataset
    * `pRoDsCreate()` Create A New Dataset Via Stream API
    * `pRoDsGet()` Query a DataSet
    * `pRoDsUpdate()` Update A Dataset Via Stream API
@@ -285,7 +330,9 @@ The function returns a named list and never throws, making it safe to use inside
    * `dataset_import()` Import data into DataSet
    * `dataset_query()` Query a DataSet
    * `dataset_update_info()` Update a DataSet
-3. Group
+   * `dataset_tags_get()` Get a Dataset's Tags
+   * `dataset_tags_add()` Add Tags to a Dataset
+6. Group
    * `pRoGroup()` Group Management
    * `group_create()` Create a group
    * `group_delete()` Delete a group
@@ -295,7 +342,7 @@ The function returns a named list and never throws, making it safe to use inside
    * `group_user_add()` Add a user to a group
    * `group_user_get()` List users in a group
    * `group_user_remove()` Remove a user from a group
-4. Page
+7. Page
    * `pRoPageGet()` Retrieve All Pages
    * `page_collection_create()` Create a page collection
    * `page_collection_delete()` Delete a page collection
@@ -306,7 +353,7 @@ The function returns a named list and never throws, making it safe to use inside
    * `page_get_all()` List pages
    * `page_get()` Retrieve a page
    * `page_update()` Update a page
-5. Personalized Data Permission (PDP)
+8. Personalized Data Permission (PDP)
    * `pRoPdp()` Manage Personalized Data Permission (PDP) at Scale
    * `pRoPdpGet()` List Personalized Data Permission (PDP) policies
    * `pdp_create()` Create a Personalized Data Permission (PDP) Policy
@@ -314,7 +361,7 @@ The function returns a named list and never throws, making it safe to use inside
    * `pdp_get_all()` List Personalized Data Permission (PDP) policies
    * `pdp_get()` Retrieve a Personalized Data Permission (PDP) policy
    * `pdp_update()` Update a Personalized Data Permission (PDP) policy
-6. Project, List, & Task
+9. Project, List, & Task
    * `plt_attachment_add()` Add attachment
    * `plt_attachment_delete()` Delete a project
    * `plt_attachment_download()` Download attachment
@@ -335,7 +382,7 @@ The function returns a named list and never throws, making it safe to use inside
    * `plt_task_get_all()` Retrieve all project tasks
    * `plt_task_get()` Retrieve individual task
    * `plt_task_update()` Update a Task
-7. Stream
+10. Stream
    * `stream_create()` Create a Stream
    * `stream_delete()` Delete a Stream
    * `stream_execution_abort()` Abort a Stream execution
@@ -348,7 +395,9 @@ The function returns a named list and never throws, making it safe to use inside
    * `stream_search()` Search Streams
    * `stream_update()` Update a Stream
    * `stream_uploadPart()` Upload a data part
-8. User
+11. Text Generation
+   * `textgen_generate()` Generate Text with Domo AI
+12. User
    * `user_create()` Create A User
    * `user_delete()` Delete A User
    * `user_get_all()` List users
