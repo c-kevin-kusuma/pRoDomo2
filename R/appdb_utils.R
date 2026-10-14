@@ -12,6 +12,14 @@
   instance
 }
 
+# TRUE when an httr2 response has a body. httr2::resp_has_body() is missing
+# from older httr2 releases (an "is not an exported object" error), so read
+# the response itself instead.
+.resp_has_body <- function(response) {
+  body <- response$body
+  (is.raw(body) && length(body) > 0) || inherits(body, "httr2_path")
+}
+
 # Normalize a single AppDB document's `content` list to one scalar per
 # field before it's handed to dplyr::bind_rows().
 #

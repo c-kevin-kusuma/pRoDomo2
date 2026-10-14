@@ -100,7 +100,7 @@ textgen_generate <- function(
   # A malformed or unrecognized token can come back as HTTP 200 with an
   # empty / non-JSON body (observed live) rather than a 401.
   if (!isTRUE(grepl("json", httr2::resp_content_type(response))) ||
-      !httr2::resp_has_body(response)) {
+      !.resp_has_body(response)) {
     stop(
       "Domo returned an unexpected non-JSON response (HTTP ",
       httr2::resp_status(response),
