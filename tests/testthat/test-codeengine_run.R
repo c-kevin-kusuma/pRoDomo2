@@ -74,3 +74,8 @@ test_that("a non-JSON 200 response gives a clear error", {
   })
   expect_error(run_it(), "non-JSON")
 })
+
+test_that(".resp_has_body works without httr2::resp_has_body", {
+  expect_true(.resp_has_body(httr2::response_json(body = list(a = 1))))
+  expect_false(.resp_has_body(httr2::response(status_code = 200, body = raw(0))))
+})
