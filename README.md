@@ -308,6 +308,11 @@ run$result
    * `appdb_doc_get()` Get AppDB Documents
    * `appdb_doc_query()` Query AppDB Documents
    * `appdb_doc_update()` Update AppDB Document
+   * `appdb_permission_add()` Add Permissions to AppDB Collections
+   * `appdb_permission_bulk()` Bulk Change AppDB Collection Permissions
+   * `appdb_permission_delete()` Remove All Permissions of an Entity from AppDB Collections
+   * `appdb_permission_get()` Get an AppDB Collection's Permissions
+   * `appdb_permission_update()` Replace Permissions on AppDB Collections
    * `appdb_row_to_document()` Convert a Data Frame Row to an AppDB Document
    * `appdb_rows_to_documents()` Convert Data Frame Rows to AppDB Documents
 3. Code Engine
