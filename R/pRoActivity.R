@@ -17,6 +17,10 @@
 
 
 
+# The audit API needs plain integers. as.character() turns round values such as
+# 1793232000000 into "1.793232e+12", which comes back as HTTP 400.
+activity_ms_string <- function(x) {format(x, scientific = FALSE, trim = TRUE)}
+
 pRoActivity <- function(client_id, secret, start = NULL, end = NULL, user_id = NULL) {
 
   # Check Required Packages
@@ -59,7 +63,7 @@ pRoActivity <- function(client_id, secret, start = NULL, end = NULL, user_id = N
   a <- list()
   nr = 1
   while(nr > 0){
-    query <- list(start = start, end = end, limit = limit, offset = offset, user = user_id)
+    query <- list(start = activity_ms_string(start), end = activity_ms_string(end), limit = limit, offset = offset, user = user_id)
     query <- query[!vapply(query, is.null, logical(1))]
 
     activity_response <- httr::GET(url = 'https://api.domo.com/v1/audit',
